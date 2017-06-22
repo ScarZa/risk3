@@ -1,0 +1,53 @@
+            <h2 style="color: blue">รายการพิจารณา/ตรวจสอบ ความเสี่ยง</h2>
+            <ol class="breadcrumb">
+              <li><a href="index.php"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+              <li class="active"><i class="fa fa-wrench"></i> รายการแจ้งย้ายความเสี่ยง</li>
+            </ol>
+             
+<script language="Javascript" type="text/javascript">
+    //var column1 = '{"รายการความเสี่ยงที่รอ RM man มาตรวจสอบ":["เลขที่","รายการ","เกิดขึ้นเมื่อ","ได้รับเมื่อ"]}';
+    var column1 = '["เลขที่","รายการ","เกิดขึ้นเมื่อ","ได้รับเมื่อ","ตรวจสอบ"]';
+    var tid = 'dbtable1';
+    var tid3 = 'dbtable3';
+    var tid2 = 'dbtable2';
+              var CTb = new createTable(column1,'1',tid);
+              CTb.GetTableAjax('JsonData/DT_CR.php','contentTB','content/detail_risk.php');
+</script>
+<div class="row">
+    <div class="col-md-12">
+            <div class="box box-primary box-solid">
+                <div class="box-header with-border">
+                    <h4 class="box-title"><i class="fa fa-star"></i> รายการความเสี่ยงที่รอ RM man มาตรวจสอบและ ส่งต่อให้ฝ่าย/หน่วยงานที่เกี่ยวข้องได้ดำเนินการแก้ไขต่อไป </h4>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                    </div><!-- /.box-tools -->
+                </div><!-- /.box-header -->
+                <div class="box-body">
+        <div id="contentTB"></div>
+                </div>
+            </div>
+    </div>
+</div>
+    
+    <!-- page script 
+    <script>
+      $(function () {
+        $("#dbtable1").DataTable({"ajax": "content/check_risk.html"});
+        $('#dbtable2').DataTable({
+            "paging": true,
+            "lengthChange": false,
+            "searching": false,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false
+        });
+        $('#dbtable3').DataTable({
+            "paging": false,
+            "lengthChange": true,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "autoWidth": true
+        });
+    });
+    </script>-->

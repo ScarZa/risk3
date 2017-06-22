@@ -1,0 +1,6 @@
+localhost
+root
+
+risk
+3306
+utf8

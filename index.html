@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset='utf-8'/>
+        <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+        <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+        <link rel='stylesheet' href='template/bootstrap/css/bootstrap.min.css'>
+        
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="template/plugins/font-awesome-4.6.3/css/font-awesome.min.css">
+         <!-- Ionicons -->
+        <link href="template/bootstrap/css/ionicons.min.css" rel="stylesheet" type="text/css"/>
+        <!-- Theme style -->
+        <link rel="stylesheet" href="template/dist/css/AdminLTE.min.css">
+        <!-- AdminLTE Skins. Choose a skin from the css/skins
+             folder instead of downloading all of them to reduce the load. -->
+        <link rel="stylesheet" href="template/dist/css/skins/_all-skins.min.css">
+        <!-- iCheck -->
+        <link rel="stylesheet" href="template/plugins/iCheck/flat/blue.css">
+        <!-- iCheck for checkboxes and radio inputs -->
+        <link rel="stylesheet" href="template/plugins/iCheck/all.css">
+        
+        <!-- jvectormap -->
+        <link rel="stylesheet" href="template/plugins/jvectormap/jquery-jvectormap-1.2.2.css">
+        <!-- Select2 -->
+        <link rel="stylesheet" href="template/plugins/select2/select2.min.css">
+       <!-- bootstrap wysihtml5 - text editor -->
+        <link rel="stylesheet" href="template/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+        <script src="template/plugins/excellentexport.js"></script>
+        <!--date picker-->
+        
+        <link rel="stylesheet" href="template/plugins/jquery-ui-1.11.4.custom/jquery-ui-1.11.4.custom.css" />
+        <link rel="stylesheet" href="template/plugins/jquery-ui-1.11.4.custom/SpecialDateSheet.css" />
+        
+        <!-- jvectormap -->
+        <link rel="stylesheet" href="template/plugins/jvectormap/jquery-jvectormap-1.2.2.css">
+        
+    
+        <script language="Javascript" type="text/javascript" src="js/sendGetPost.js"></script>
+        <script src="js/createTable.js" type="text/javascript"></script>
+        
+        <script src="js/AJAXCharts.js" type="text/javascript"></script>
+        <script src="template/plugins/json2/json2.js" type="text/javascript"></script><!-- JSON2 -->
+        <script src="js/base64EnDecode.js" type="text/javascript"></script>
+<script type="text/javascript">
+            function loadPage(content,page,data){
+        $(content).empty().load(page,data, function(responseTxt, statusTxt, xhr){               
+        if(statusTxt == "error")
+            alert("Error: " + xhr.status + ": " + xhr.statusText);
+    });
+}
+
+        </script>
+        <script type="text/javascr">
+            var str_test = getURL("test");
+            console.log(str_test);
+            </script>
+        <style type="text/css">
+            .black-ribbon {   position: fixed;   z-index: 9999;   width: 70px; }
+            @media only all and (min-width: 768px) { .black-ribbon { width: auto; } }
+
+            .stick-left { left: 0; }
+            .stick-right { right: 0; }
+            .stick-top { top: 0; }
+            .stick-bottom { bottom: 0; }
+        </style>
+    </head>
+    <body class="hold-transition skin-blue-light fixed sidebar-mini">
+               <img src="images/black_ribbon_bottom_right.png" class="black-ribbon stick-bottom stick-right"/>
+    <div class="wrapper">
+      <header class="main-header">
+        <!-- Logo -->
+        <a href="index.html" class="logo">
+          <!-- mini logo for sidebar mini 50x50 pixels -->
+          <span class="logo-mini" style="color: yellow"><b>R</b>M</span>
+          <!-- logo for regular state and mobile devices -->
+          <span class="logo-lg" style="color: yellow"><b>RM-</b>Loei System v.3.0</span>
+        </a>
+        <!-- Header Navbar: style can be found in header.less -->
+        <nav class="navbar navbar-static-top" role="navigation">
+          <!-- Sidebar toggle button-->
+          <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <div class="navbar-custom-menu">
+              <ul class='nav navbar-nav' id='gear_side'></ul>
+              <ul class='nav navbar-nav' id="gear_side1">
+                  <li>
+            <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+                </li>
+              </ul>
+          </div>
+        </nav>
+      </header>
+        <aside class="main-sidebar">
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+          <!-- Sidebar user panel -->
+          <div class="user-panel">
+            <div class="pull-left image"></div>
+            <div class="pull-left info"></div>
+          </div>
+        </section>
+        </aside> 
+        <div class='content-wrapper'></div>
+        <footer class='main-footer'></footer>
+        <aside class='control-sidebar control-sidebar-dark'>
+        </aside>
+        <div class='control-sidebar-bg'></div>
+            </div>
+               <!-- jQuery 2.1.4 -->
+        <script src="template/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    <script src="js/gen_menu.js" type="text/javascript"></script>
+    <script type="text/javascript">
+            function getURL(objN){
+	if(objN==null){
+		return window.location.href;
+	}else{
+		objN = objN.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+		var regexS = "[\\?&]"+objN+"=([^&#]*)";
+		var regex = new RegExp( regexS );
+		var results = regex.exec( window.location.href );
+		if( results == null )
+			return "";
+		else
+			return results[1];
+	}
+}
+        
+</script>
+    <script src="template/plugins/DataTables/jquery.dataTables.min.js"></script>
+    <script src="template/plugins/DataTables/dataTables.bootstrap.min.js"></script>
+    <script src="template/plugins/moment.min.js"></script>
+    <!--HighChart-->
+        <script src="template/plugins/Highcharts/code/highcharts.js"></script>
+        <script src="template/plugins/Highcharts/code/modules/exporting.js"></script>
+        <script src="template/plugins/Highcharts/code/modules/data.js"></script>
+        <script src="template/plugins/Highcharts/code/modules/drilldown.js"></script>
+        <script src="template/plugins/Highcharts/code/highcharts-3d.js"></script>
+    <!--<script>
+      $.widget.bridge('uibutton', $.ui.button);
+    </script>-->
+    <script src="template/plugins/select2/select2.full.min.js"></script>
+    <!-- Bootstrap 3.3.5 -->
+    <script src="template/bootstrap/js/bootstrap.min.js"></script>
+    <script src="template/plugins/jquery-ui-1.11.4.custom/jquery-ui-1.11.4.custom.js"></script>
+    <script src="js/DatepickerThai.js" type="text/javascript"></script>
+    <!-- Morris.js charts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <script src="template/plugins/morris/morris.min.js"></script>
+    <!-- Sparkline -->
+    <script src="template/plugins/sparkline/jquery.sparkline.min.js"></script>
+    <!-- jvectormap -->
+    <script src="template/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
+    <script src="template/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+    <!-- jQuery Knob Chart -->
+    <script src="template/plugins/knob/jquery.knob.js"></script>
+    <!-- Bootstrap WYSIHTML5 -->
+    <script src="template/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
+    <!-- Slimscroll -->
+    <script src="template/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <!-- FastClick -->
+    <script src="template/plugins/fastclick/fastclick.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="template/dist/js/app.min.js"></script>
+    <!-- AdminLTE dashboard demo (This is only for demo purposes) 
+    <script src="template/dist/js/pages/dashboard.js"></script>-->
+    <!-- AdminLTE for demo purposes -->
+    <script src="template/dist/js/demo.js"></script>
+    <!-- page script 
+    <script>
+      $(function () {
+        $("#dbtable1").DataTable();
+        $('#dbtable2').DataTable({
+            "paging": true,
+            "lengthChange": false,
+            "searching": false,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false
+        });
+        $('#dbtable3').DataTable({
+            "paging": false,
+            "lengthChange": true,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "autoWidth": true
+        });
+        
+    });
+    </script>-->
+                    <script language="JavaScript">
+            var HttPRequest = false;
+            function doCallAjax(Sort) {
+                HttPRequest = false;
+                if (window.XMLHttpRequest) { // Mozilla, Safari,...
+                    HttPRequest = new XMLHttpRequest();
+                    if (HttPRequest.overrideMimeType) {
+                        HttPRequest.overrideMimeType('text/html');
+                    }
+                } else if (window.ActiveXObject) { // IE
+                    try {
+                        HttPRequest = new ActiveXObject("Msxml2.XMLHTTP");
+                    } catch (e) {
+                        try {
+                            HttPRequest = new ActiveXObject("Microsoft.XMLHTTP");
+                        } catch (e) {
+                        }
+                    }
+                }
+                if (!HttPRequest) {
+                    alert('Cannot create XMLHTTP instance');
+                    return false;
+                }
+                var url = 'content/refresh_risk.php';
+                var pmeters = 'mySort=' + Sort;
+                HttPRequest.open('POST', url, true);
+                HttPRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                //HttPRequest.setRequestHeader("Content-length", pmeters.length);
+                //HttPRequest.setRequestHeader("Connection", "close");
+                HttPRequest.send(pmeters);
+                HttPRequest.onreadystatechange = function ()
+                {
+                    if (HttPRequest.readyState == 3)  // Loading Request
+                    {
+                        document.getElementById("mySpan").innerHTML = "Now is Loading...";
+                    }
+                    if (HttPRequest.readyState == 4) // Return Request
+                    {
+                        document.getElementById("mySpan").innerHTML = HttPRequest.responseText;
+                    }
+                }
+            }
+        </script>
+        <!-- Notifications: style can be found in dropdown.less -->
+                              <script language="JavaScript">
+                                            function bodyOnload()
+                                            {
+                                                doCallAjax('countrisk')
+                                                setTimeout("doLoop();", 30000);
+                                            }
+                                            function doLoop()
+                                            {
+                                                bodyOnload();
+                                            }
+                                        </script>
+        <script type="text/javascript">
+            function popup(url, name, windowWidth, windowHeight) {
+                myleft = (screen.width) ? (screen.width - windowWidth) / 2 : 100;
+                mytop = (screen.height) ? (screen.height - windowHeight) / 2 : 100;
+                properties = "width=" + windowWidth + ",height=" + windowHeight;
+                properties += ",scrollbars=yes, top=" + mytop + ",left=" + myleft;
+                window.open(url, name, properties);
+            }
+        </script>
+    </body>
+</html>

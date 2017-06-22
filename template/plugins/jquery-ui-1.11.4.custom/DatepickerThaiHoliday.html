@@ -1,0 +1,112 @@
+<!doctype html>
+ 
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>jQuery UI Datepicker - Default functionality</title>
+<!--   <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" /> -->
+<script src="jquery-1.12.3.js"></script>
+  <script src="jquery-ui-1.11.4.custom.js"></script>
+  <link rel="stylesheet" href="jquery-ui-1.11.4.custom.css" />
+   <link rel="stylesheet" href="SpecialDateSheet.css" />
+  
+  <script>
+ $.datepicker.regional['th'] ={
+        changeMonth: true,
+        changeYear: true,
+        //defaultDate: GetFxupdateDate(FxRateDateAndUpdate.d[0].Day),
+        yearOffSet: 0,
+        showOn: "button",
+        buttonImage: 'images/calendar.gif',
+        buttonImageOnly: true,
+        dateFormat: 'dd M yy',
+        dayNames: ['อาทิตย์', 'จันทร์', 'อังคาร', 'พุธ', 'พฤหัสบดี', 'ศุกร์', 'เสาร์'],
+        dayNamesMin: ['อา', 'จ', 'อ', 'พ', 'พฤ', 'ศ', 'ส'],
+        monthNames: ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'],
+        monthNamesShort: ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'],
+        constrainInput: true,
+        beforeShowDay: CheckDate,
+        onSelect: SelectedDate,
+        onChangeMonthYear: ChangMonthAndYear,
+        prevText: 'ก่อนหน้า',
+        nextText: 'ถัดไป',
+        yearRange: '-20:+0',
+        buttonText: 'เลือก',
+        beforeShow: OnBeforShow,
+    };
+$.datepicker.setDefaults($.datepicker.regional['th']);
+
+  $(function() {
+    $( "#datepicker" ).datepicker( $.datepicker.regional["th"] );
+    $( "#datepicker" ).datepicker("setDate", new Date());
+  });
+
+
+    var Holidays;
+ 
+    //On Selected Date
+    //Have Check Date
+    function CheckDate(date) {
+        var day = date.getDate();
+        var selectable = true;//ระบุว่าสามารถเลือกวันที่ได้หรือไม่ True = ได้ False = ไม่ได้
+        var CssClass = '';
+        
+        if (Holidays != null) {
+
+            for (var i = 0; i < Holidays.length; i++) {
+                var value = Holidays[i];
+                if (value == day) {
+
+                    selectable = false;
+                    CssClass = 'specialDate';
+                    break;
+                }
+            }
+        }
+        return [selectable, CssClass, ''];
+    }
+
+
+    //=====================================================================================================
+    //On Selected Date
+    function SelectedDate(dateText, inst) {
+        //inst.selectedMonth = Index of mounth
+        //(inst.selectedMonth+1)  = Current Mounth
+        var DateText = inst.selectedDay + '/' + (inst.selectedMonth + 1) + '/' + inst.selectedYear;
+        //CallGetUpdateInMonth(ReFxupdateDate(dateText));
+        //CallGetUpdateInMonth(DateText);
+        return [dateText, inst]
+    }
+    //=====================================================================================================
+    //Call Date in month on click image
+    function OnBeforShow(input, inst) {
+        var month = inst.currentMonth + 1;
+        var year = inst.currentYear;
+        //currentDay: 10
+        //currentMonth: 6
+        //currentYear: 2012
+        GetDaysShows(month, year); 
+       
+    }
+    //=====================================================================================================
+    //On Selected Date
+    //On Change Drop Down
+    function ChangMonthAndYear(year, month, inst) {
+
+        GetDaysShows(month, year);
+    }
+
+    //=====================================
+    function GetDaysShows(month, year) {
+        //CallGetDayInMonth(month, year); <<เป็น Function ที่ผมใช้เรียก ajax เพื่อหาวันใน DataBase  แต่นี้เป็นเพียงตัวอย่างจึงใช้ Array ด้านล่างแทนการ Return Json
+        //อาจใช้ Ajax Call Data โดยเลือกจากเดือนและปี แล้วจะได้วันที่ต้องการ Set ค่าวันไว้คล้ายด้านล่าง
+        Holidays = [1,4,6,11]; // Sample Data
+    }
+    //=====================================
+ 
+  </script>
+</head>
+<body> 
+<p>Date: <input type="text" id="datepicker" /></p>
+</body>
+</html>

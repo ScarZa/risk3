@@ -1,0 +1,5 @@
+#เพิ่ม fiel เพื่อเก็บเป็น formate time
+ALTER TABLE `takerisk`
+ADD COLUMN `take_time2`  time NULL AFTER `take_time`;
+#update ข้อมูลที่เป็นปีงบ 60
+UPDATE takerisk SET take_time2=take_time WHERE takerisk_id=takerisk_id AND take_rec_date BETWEEN '2016-09-01' AND NOW();
