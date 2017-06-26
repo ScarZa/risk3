@@ -52,6 +52,32 @@
                             "<br><br><a href='prcNomal_RcaForm.php?takerisk_id="+data.detail.takerisk_id+"'>ย้ายไปประเมิน <i class='fa fa-bolt'></i></a>"));
                 
             }
+            if(data.detail.move_status=='Y' && data.detail.recycle=='N' && data.rm_status=='Y'){
+                $("div#DR_content").append($("<h1><small>เลือกหน่วยงานที่ต้องการย้ายความเสี่ยงไป</small></h1>")
+                        ,("<div class='form-group' id='dep'></div>")
+                                ,("<label>ทำRCA&nbsp;</label>")
+                                ,(" <INPUT TYPE='checkbox' NAME='rca' style='width:20px; height:20px;' VALUE='Y'  id=''  > RCA <br><br>")
+                                ,("<button type='submit' class='btn btn-primary' id='submit'>บันทึก  </button>"));
+                        $("div#dep").append($("<label>หน่วยงานที่เกี่ยวข้อง &nbsp;</label>")
+                                ,("<select name='take_dep' class='form-control select2' id='combobox1' required></select>")
+                                ,("<label>ระดับ &nbsp;</label>")
+                                ,("<select name='level_risk' id='combobox2' class='form-control select2' required></select>"));
+                                $("select#combobox1").append($("<option value=''> เลือกหน่วยงาน </option>"));
+                                $.getJSON('JsonData/Dep_Data.php', function (dep) {
+                                    
+                                    for (var key in dep) {
+                                        if(dep[key].dep_id==data.detail.res_dep){var select='selected';}else{var select='';}
+                                              $("select#combobox1").append($("<option value='"+dep[key].dep_id+"' "+select+"> "+dep[key].name+" </option>"));
+                                    }
+                                });
+                                $("select#combobox2").append($("<option value=''> เลือกระดับความรุนแรง </option>"));
+                                $.getJSON('JsonData/LevelRisk.php', function (LR) {
+                                    for (var key in LR) {
+                                        if(LR[key].level_risk==data.detail.level_risk){var select='selected';}else{var select='';}
+                                              $("select#combobox2").append($("<option value='"+LR[key].level_risk+"' "+select+"> "+LR[key].level_risk+" </option>"));
+                                    }
+                                });
+            }
         });
     });
 </script> 
@@ -100,4 +126,5 @@
             </div>
         </div>
     </div>
+    <div class="col-md-12" id="DR_content"></div>
 </div>
