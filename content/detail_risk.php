@@ -3,6 +3,7 @@
     $(function () {
         var data = "<?= $data?>";
         var decode = decode64(data);
+        
         $.getJSON('JsonData/detail_risk.php',{data: decode}, function (data) {
             if(data.rm_status == 'Y' || data.rm_status == 'A'){
                 $("ol li#bc").append("<a href='listRiskInBox.php'><i class='fa fa-envelope'></i> ความเสี่ยงที่ได้รับ</a>");
@@ -50,21 +51,19 @@
                             "<br><br><a href='frmWriteRisk.php?check=1&method=edit&&takerisk_id="+data.detail.takerisk_id+"'>แก้ไขหมวดและรายการความเสี่ยง <i class='fa fa-edit'></i></a>"+
                             "<br><br><a href='detail_recycle.php?takerisk_id="+data.detail.takerisk_id+"'>ย้ายเข้าถังขยะ <i class='fa fa-trash-o'></i></a>"+
                             "<br><br><a href='prcNomal_RcaForm.php?takerisk_id="+data.detail.takerisk_id+"'>ย้ายไปประเมิน <i class='fa fa-bolt'></i></a>"));
-                
             }
             if(data.detail.move_status=='Y' && data.detail.recycle=='N' && data.rm_status=='Y'){
                 $("div#DR_content").append($("<h1><small>เลือกหน่วยงานที่ต้องการย้ายความเสี่ยงไป</small></h1>")
                         ,("<div class='form-group' id='dep'></div>")
                                 ,("<label>ทำRCA&nbsp;</label>")
-                                ,(" <INPUT TYPE='checkbox' NAME='rca' style='width:20px; height:20px;' VALUE='Y'  id=''  > RCA <br><br>")
-                                ,("<button type='submit' class='btn btn-primary' id='submit'>บันทึก  </button>"));
+                                ,(" <INPUT TYPE='checkbox' NAME='rca' style='width:20px; height:20px;' VALUE='Y'  id='rca'  > RCA <br><br>")
+                                ,("<button type='submit' class='btn btn-primary' id='DRsubmit'>บันทึก  </button>"));
                         $("div#dep").append($("<label>หน่วยงานที่เกี่ยวข้อง &nbsp;</label>")
                                 ,("<select name='take_dep' class='form-control select2' id='combobox1' required></select>")
                                 ,("<label>ระดับ &nbsp;</label>")
                                 ,("<select name='level_risk' id='combobox2' class='form-control select2' required></select>"));
                                 $("select#combobox1").append($("<option value=''> เลือกหน่วยงาน </option>"));
                                 $.getJSON('JsonData/Dep_Data.php', function (dep) {
-                                    
                                     for (var key in dep) {
                                         if(dep[key].dep_id==data.detail.res_dep){var select='selected';}else{var select='';}
                                               $("select#combobox1").append($("<option value='"+dep[key].dep_id+"' "+select+"> "+dep[key].name+" </option>"));
@@ -77,8 +76,24 @@
                                               $("select#combobox2").append($("<option value='"+LR[key].level_risk+"' "+select+"> "+LR[key].level_risk+" </option>"));
                                     }
                                 });
+                                 $("button#DRsubmit").click(function () {
+					$.ajax({
+					   type: "POST",
+					   url: "process/prcwriterisk.php",
+					   data: {take_dep:$("#combobox1").val()
+                                                 ,level_risk:$("#combobox2").val()
+                                                ,takerisk_id:data.detail.takerisk_id
+                                                ,rca:$("#rca").val()
+                                                ,data0:'change_risk'},
+					   success: function(result) {
+						alert(result);
+                                                $("#index_content").empty().load('content/check_risk.html');
+					   }
+					 });
+        });
             }
         });
+       
     });
 </script> 
 <h2 style="color: blue">รายละเอียด/ดำเนินการความเสี่ยง</h2>

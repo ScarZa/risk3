@@ -80,7 +80,7 @@ if ($method == 'insert_risk') {
     } else { 
         echo " &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b style='color: red;'>Insert complete!!!!</b>";
     }
-} elseif ($_POST[method] == 'update') {
+} elseif ($method == 'update') {
     $takerisk_id = $_POST[takerisk_id];
 
     $sqlUpdate = mysql_query("update takerisk   SET  take_first='$take_first', take_counsel='$take_counsel',hn='$hn',an='$an',take_date='$take_date',take_time='$take_time',take_time2='$take_time',
@@ -106,7 +106,7 @@ if ($method == 'insert_risk') {
 								            </div>";
         echo" <META HTTP-EQUIV='Refresh' CONTENT='1;URL=changeRisk.php?unset=1'>";
     }
-} else if ($_GET[method] == 'delete') {
+} else if ($method == 'delete') {
     $takerisk_id = $_GET[takerisk_id];
     $sqlDelete = mysql_query("delete FROM  takerisk where  takerisk_id='$takerisk_id'");
     if ($sqlDelete == false) {
@@ -122,7 +122,7 @@ if ($method == 'insert_risk') {
         echo "<br />";
         echo" <META HTTP-EQUIV='Refresh' CONTENT='1;URL=index.php'>";
     }
-} elseif ($_GET[method] == 'move_risk') {
+} elseif ($method == 'move_risk') {
     $return_date = date("Y-m-d");
     $return_user = $_SESSION['user_id'];
 
@@ -148,7 +148,7 @@ if ($method == 'insert_risk') {
 								            </div>";
         echo" <META HTTP-EQUIV='Refresh' CONTENT='2;URL=listRiskInBox.php'>";
     }
-} elseif ($_GET[method] == 'recycle') {
+} elseif ($method == 'recycle') {
     $takerisk_id = $_GET[takerisk_id];
     $detail_recycle = $_GET[detail_recycle];
     $sqlMove = mysql_query("update takerisk set recycle='Y', detail_recycle='$detail_recycle' where takerisk_id='$takerisk_id' ");
@@ -172,37 +172,27 @@ if ($method == 'insert_risk') {
 								            </div>";
         echo" <META HTTP-EQUIV='Refresh' CONTENT='2;URL=changeRisk.php'>";
     }
-} elseif ($_POST[method] == 'change_risk') {
+} elseif ($method == 'change_risk') {
 
-    $takerisk_id = $_POST[takerisk_id];
-    $take_dep = $_POST[take_dep];
-    $level_risk = $_POST[level_risk];
-    $pct = $_POST[pct];
-    $ic = $_POST[ic];
-    $rca = $_POST[rca];
-    $receiver = $_SESSION['user_id'];
+    $takerisk_id = $_POST['takerisk_id'];
+    $res_dep = $_POST['take_dep'];
+    $level_risk = $_POST['level_risk'];
+    //$pct = $_POST[pct];
+    //$ic = $_POST[ic];
+    $rca = isset($_POST['rca'])?$_POST['rca']:'N';
+    $receiver = $_SESSION['rm_id'];
     $receive_date = date('Y-m-d');
-
-    $sqlMove = mysql_query("update takerisk set move_status='N' ,res_dep='$take_dep' ,level_risk='$level_risk' ,pct='$pct' ,ic='$ic' , rca='$rca', receiver='$receiver',receive_date='$receive_date'   where takerisk_id='$takerisk_id'");
-    if ($sqlMove == false) {
-        echo "<p>";
-        echo "Move not complete" . mysql_error();
-        echo "<br />";
-        echo "<br />";
-
-        echo "<a href='index.php' data-role='button' data-icon='back'>กลับ</a>";
+    $move_status = 'N';
+    $data = array($move_status,$res_dep,$level_risk,$rca,$receiver,$receive_date);
+    $field=array(" move_status","res_dep","level_risk","rca","receiver","receive_date");
+    $table = "takerisk";
+    $where="takerisk_id=:takerisk_id";
+    $execute=array(':takerisk_id' => $takerisk_id);
+    $change_risk=$connDB->update($table, $data, $where, $field, $execute);
+    if ($change_risk == false) {
+        echo "Move not complete ".$change_risk->errorInfo();
     } else {
-        echo "<p>&nbsp;</p>	";
-        echo "<p>&nbsp;</p>	";
-        echo " <div class='bs-example'>
-									              <div class='progress progress-striped active'>
-									                <div class='progress-bar' style='width: 100%'></div>
-									              </div>";
-        echo "<div class='alert alert-info alert-dismissable'>
-								              <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
-								               <a class='alert-link' target='_blank' href='#'><center>ย้ายความเสี่ยงไปยังหน่วยงานที่เกี่ยวข้องเรียบร้อย</center></a> 
-								            </div>";
-        echo" <META HTTP-EQUIV='Refresh' CONTENT='2;URL=changeRisk.php'>";
+        echo "Insert complete!!!!";
     }
 }//-------------end process insert update delete
 ?>	<?php $connDB->close_PDO(); ?>
