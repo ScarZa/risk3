@@ -47,10 +47,10 @@
                         $("#forword_rm").attr("onclick","return popup('pass_risk.php?takerisk_id="+data.detail.takerisk_id+"', popup, 400, 300);");
             }
             if(data.rm_status == 'Y' && data.detail.recycle == 'N'){
-                $("div.text-right").append($("<br><br><a href='frmWriteRisk.php?method=edit&takerisk_id="+data.detail.takerisk_id+"'>แก้ไขข้อความไม่เหมาะสม <i class='fa fa-edit'></i></a>"+
-                            "<br><br><a href='frmWriteRisk.php?check=1&method=edit&&takerisk_id="+data.detail.takerisk_id+"'>แก้ไขหมวดและรายการความเสี่ยง <i class='fa fa-edit'></i></a>"+
+                $("div.text-right").append($("<br><br><a id='editRisk' href='#'>แก้ไขรายละเอียด <i class='fa fa-edit'></i></a>"+
                             "<br><br><a href='detail_recycle.php?takerisk_id="+data.detail.takerisk_id+"'>ย้ายเข้าถังขยะ <i class='fa fa-trash-o'></i></a>"+
                             "<br><br><a href='prcNomal_RcaForm.php?takerisk_id="+data.detail.takerisk_id+"'>ย้ายไปประเมิน <i class='fa fa-bolt'></i></a>"));
+                                $("#editRisk").attr("onclick","loadPage('#index_content','content/edit_write_risk.php',{data:"+data.detail.takerisk_id+"});");
             }
             if(data.detail.move_status=='Y' && data.detail.recycle=='N' && data.rm_status=='Y'){
                 $("div#DR_content").append($("<h1><small>เลือกหน่วยงานที่ต้องการย้ายความเสี่ยงไป</small></h1>")
@@ -67,15 +67,16 @@
                                     for (var key in dep) {
                                         if(dep[key].dep_id==data.detail.res_dep){var select='selected';}else{var select='';}
                                               $("select#combobox1").append($("<option value='"+dep[key].dep_id+"' "+select+"> "+dep[key].name+" </option>"));
-                                    }
+                                    }$(".select2").select2();
                                 });
                                 $("select#combobox2").append($("<option value=''> เลือกระดับความรุนแรง </option>"));
                                 $.getJSON('JsonData/LevelRisk.php', function (LR) {
                                     for (var key in LR) {
                                         if(LR[key].level_risk==data.detail.level_risk){var select='selected';}else{var select='';}
                                               $("select#combobox2").append($("<option value='"+LR[key].level_risk+"' "+select+"> "+LR[key].level_risk+" </option>"));
-                                    }
+                                    }$(".select2").select2();
                                 });
+                                
                                  $("button#DRsubmit").click(function () {
 					$.ajax({
 					   type: "POST",
