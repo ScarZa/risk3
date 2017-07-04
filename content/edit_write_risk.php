@@ -5,35 +5,109 @@
         $.getJSON('JsonData/detail_risk.php',{data: data}, function (data) {
             
             $("div#detialRisk").append($("<div class='form-group'><label>หมวดความเสี่ยง &nbsp;</label>"+  
-                        "<select name='data' id='subcate' required></select></div><br><br>")
-                        ,("<div class='form-group'><label>วันที่เกิดเหตุ &nbsp;</label><input type='text' name='data' id='datepicker' class='form-control' readonly required></div><br><br>")
-                        ,("<div class='form-group'><label>เวลาที่เกิดเหตุ &nbsp;</label><div class='form-group'><select name='data' id='take_hour' class='form-control select2'></select>"+
-                        "</div> <b>:</b> <div class='form-group'><select name='data' id='take_minute' class='form-control select2'></select></div> <b>นาที</b></div><br><br>"));
+                        "<select name='subcate' id='subcate' required></select></div><br><br>")
+                        ,("<div class='form-group'><label>วันที่เกิดเหตุ &nbsp;</label><input type='text' name='take_date' id='datepicker' class='form-control' readonly required></div><br><br>")
+                        ,("<div class='form-group'><label>เวลาที่เกิดเหตุ &nbsp;</label><div class='form-group'><select name='take_hour' id='take_hour' class='form-control select2'></select>"+
+                        "</div> <b>:</b> <div class='form-group'><select name='take_minute' id='take_minute' class='form-control select2'></select></div> <b>นาที</b></div><br><br>")
+                        ,("<div class='form-group'><label>สถานที่เกิดเหตุ &nbsp;</label><select name='take_place' id='take_place' required></select></div><br><br>")
+                        ,("<div class='form-group'><label>HN &nbsp;</label><input type='text' id='hn' class='form-control' placeholder='HN' name='hn'></div>")
+                        ,("<div class='form-group'> <label> &nbsp; AN &nbsp;</label><input type='text' id='an' class='form-control' placeholder='AN' name='an'></div><br><br>")
+                        ,("<div class='form-group'><label>ชื่อบุคลากรที่ประสบเหตุการณ์  &nbsp;</label> <input type='text' placeholder='ชื่อบุคลากร' id='take_other' class='form-control' name='take_other'/></div><br><br>")
+                        ,("<div class='form-group'><label>หน่วยงานที่เกี่ยวข้อง  &nbsp;</label><select name='res_dep' id='res_dep' required></select></div>"));
                 $("select#subcate").addClass("form-control").addClass("select2").append("<option value=''>ค้นหารายการความเสี่ยง</option>");
+                $("select#take_place").addClass("form-control").addClass("select2").append("<option value=''>เลือกสถานที่</option>");
+                $("select#res_dep").addClass("form-control").addClass("select2").append("<option value=''>หน่วยงานที่เกี่ยวข้อง</option>");
                 $.getJSON('JsonData/subcateData.php', function (LR) {
                                     for (var key in LR) {
                                         if(LR[key].subcategory == data.detail.subcategory){var select='selected';}else{var select='';}
                                               $("select#subcate").append($("<option value='"+LR[key].subcategory+"' "+select+"> "+LR[key].name+" </option>"));
                                     }$(".select2").select2();
                                 });
+                $.getJSON('JsonData/placeData.php', function (PR) {
+                                    for (var key in PR) {
+                                        if(PR[key].place == data.detail.take_place){var select='selected';}else{var select='';}
+                                              $("select#take_place").append($("<option value='"+PR[key].place+"' "+select+"> "+PR[key].name+" </option>"));
+                                    }$(".select2").select2();
+                                });      
+                $.getJSON('JsonData/Dep_Data.php', function (DR) {
+                                    for (var key in DR) {
+                                        if(DR[key].dep_id == data.detail.res_dep){var select='selected';}else{var select='';}
+                                              $("select#res_dep").append($("<option value='"+DR[key].dep_id+"' "+select+"> "+DR[key].name+" </option>"));
+                                    }$(".select2").select2();
+                                });
+                                var takeTime = data.detail.take_time;
                                 for (var i = 0; i <= 23; i++) {
-                                    if (i < 10) {
-        $("select#take_hour").append($("<option value='0"+i+"'>0"+i+"</option>"));
+                                    if (i == takeTime.substring (0, 2)) {
+        var selected = 'selected';
     } else {
-        $("select#take_hour").append($("<option value='"+i+"'>"+i+"</option>"));
+        var selected = '';
+    }
+                                    if (i < 10) {
+        $("select#take_hour").append($("<option value='0"+i+"' "+selected+">0"+i+"</option>"));
+    } else {
+        $("select#take_hour").append($("<option value='"+i+"' "+selected+">"+i+"</option>"));
     }
                                 }
                                 for (var i = 0; i <= 59; i++) {
-                                    if (i < 10) {
-        $("select#take_minute").append($("<option value='0"+i+"'>0"+i+"</option>"));
+                                    if (i == takeTime.substring (3, 5)) {
+        var selected = 'selected';
     } else {
-        $("select#take_minute").append($("<option value='"+i+"'>"+i+"</option>"));
+        var selected = '';
+    }
+                                    if (i < 10) {
+        $("select#take_minute").append($("<option value='0"+i+"' "+selected+">0"+i+"</option>"));
+    } else {
+        $("select#take_minute").append($("<option value='"+i+"' "+selected+">"+i+"</option>"));
     }
                                 }
-        //$("#datepicker").val(data.detail.take_date); 
+        $("#hn").val(data.detail.hn); 
+        $("#an").val(data.detail.an);
+        $("#take_other").val(data.detail.take_other);
         var DP = new DatepickerThai();
         DP.GetDatepicker('#datepicker');  
         $("#datepicker").datepicker("setDate",new Date("'"+data.detail.take_date+"'"));
+        //////////////////////////////
+        
+        $("div#incidentRisk").append($("<div class='form-group'><label>บรรยายเหตุการณ์ความเสี่ยง</label><textarea class='form-control' style='width: 100%' COLS='100%' rows='5' placeholder='บรรยายเหตุการณ์ความเสี่ยง' name='take_detail' id='take_detail' required></textarea></div><p>")
+                                        ,("<div class='form-group'><label>การแก้ไขเบื้องต้น</label><textarea class='form-control' style='width: 100%' COLS='100%' rows='3' placeholder='การแก้ไขเบื้องต้น' name='take_first' id='take_first'></textarea></div><p>")
+                                        ,("<div class='form-group'><label>ข้อเสนอแนะอื่นๆ เพื่อการแก้ไขป้องกัน</label><textarea class='form-control' style='width: 100%' COLS='100%' placeholder='ข้อเสนอแนะ' name='take_counsel' id='take_counsel'></textarea></div>"));
+        
+        $("#take_detail").val(data.detail.take_detail);
+        $("#take_first").val(data.detail.take_first);
+        $("#take_counsel").val(data.detail.take_counsel);
+        /////////////////////////////////
+        
+        $("div#levelRisk").append($("<div class='form-group'><label>ระดับความเสี่ยง</label></div><p><div id='sel_LR'></div>"));
+        $.getJSON('JsonData/LevelRisk.php', function (LR) {
+                                    for (var key in LR) {
+                                        if(LR[key].level_risk == data.detail.level_risk){var checked='checked';}else{var checked='';}
+                                              $("div#sel_LR").append($("<input type='radio' name='level_risk' id='level_risk' style='width: 20px; height:20px;' value='"+LR[key].level_risk+"' "+checked+" required><b>"+LR[key].level_risk+" &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b> "));
+                                    }
+                                });
+                                $("button#WRedit").click(function () {
+					$.ajax({
+					   type: "POST",
+					   url: "process/test_post.php",
+					   data: {subcate:$("#subcate").val()
+                                                 ,takeDate:$("#datepicker").val()
+                                                ,takerisk_id:data.detail.takerisk_id
+                                                ,takeTime:$("#take_hour").val()+":"+$("#take_minute").val()
+                                                ,take_place:$("#take_place").val()
+                                                ,hn:$("#hn").val()
+                                                ,an:$("#an").val()
+                                                ,take_other:$("#take_other").val()
+                                                ,res_dep:$("#res_dep").val()
+                                                ,take_detail:$("#take_detail").val()
+                                                ,take_first:$("#take_first").val()
+                                                ,take_counsel:$("#take_counsel").val()
+                                                ,level_risk:$("#level_risk").val()
+                                                ,data0:'update'},
+					   success: function(result) {
+						alert(result);
+                                                //$("#index_content").empty().load('content/check_risk.html');
+					   }
+					 });
+                                         });
         });
     });
     </script>
@@ -85,37 +159,9 @@
             </div></div>
         <div class="col-lg-12">
             <!--<button id="btn_reset">reset</button>-->
-            <button class="btn btn-success btn-sm" id="WRsubmit" name="WRsubmit" onclick="" disabled="disabled">บันทึก</button>
+            <button class="btn btn-warning btn-sm" id="WRedit" name="WRedit">แก้ไข</button>
             <button type="reset" class="btn btn-default">Reset  </button> 
         </div>
     </form> 
     <div id="result"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;สถานะการบันทึกความเสี่ยง</div>
 </div>
-<script>
-$(function () {
-        $(".select2").select2();
-});
-    </script>
-    <script language="JavaScript">
-                            function ChkSubmit(result)
-                            {
-                                if (document.getElementById("filUpload").value == "")
-                                {
-                                return true;
-                                }
-                                document.getElementById("progress").style.visibility = "visible";
-                                document.getElementById("divresult").innerHTML = "Uploading....";
-                                return true;
-                            }
-                            function showResult(result)
-                            {
-                                document.getElementById("progress").style.visibility = "hidden";
-                                if (result == 1)
-                                {
-                                    document.getElementById("divresult").innerHTML = "<font color=green> Save successfully! </font>  <br>";
-                                } else
-                                {
-                                    document.getElementById("divresult").innerHTML = "<font color=red> Error!! Cannot upload data </font> <br>";
-                                }
-                            }
-                        </script>
