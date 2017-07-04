@@ -100,7 +100,7 @@
                                                 ,take_detail:$("#take_detail").val()
                                                 ,take_first:$("#take_first").val()
                                                 ,take_counsel:$("#take_counsel").val()
-                                                ,level_risk:$("#level_risk").val()
+                                                ,level_risk:$('input[name=level_risk]:checked').val()
                                                 ,data0:'update'},
 					   success: function(result) {
 						alert(result);
@@ -123,7 +123,7 @@
     </div>
 </div>
     <div class="row">  
-    <form class="navbar-form navbar-left" action="process/prcupload_file.php" name="form1" id="form1" method="post" enctype="multipart/form-data" target="iframe_target" onSubmit="return ChkSubmit();">
+    <form class="navbar-form navbar-left" action="#" name="form1" id="form1" method="post" enctype="multipart/form-data" target="iframe_target" onSubmit="return ChkSubmit();">
         <iframe id="iframe_target" name="iframe_target" src="#" style="display:none"></iframe>
         <input type='hidden' name='method' value="insert_risk">
         <input type='hidden' name='data' value="insert_risk">
