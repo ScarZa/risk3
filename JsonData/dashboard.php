@@ -13,7 +13,7 @@ $rslt = array();
 $series = array();
     include_once '../template/plugins/function_date.php';
     include_once '../template/plugins/funcDateThai.php';
-if (empty($_GET['year'])) {
+if (empty($_GET['data'])) {
      if($date >= $bdate and $date <= $edate){
                              $y= $Yy;
                              $Y= date("Y");
@@ -26,10 +26,10 @@ if (empty($_GET['year'])) {
                             $years = $year + 543;
                             }
                         } else {
-                            $YeaR=$_GET['year'];
-                            $y = $_GET['year'] - 543;
+                            $YeaR=$_GET['data'];
+                            $y = $_GET['data'] - 543;
                             $Y = $y - 1;
-                            $year = $_POST['year'] - 543;
+                            $year = $_GET['data'] - 543;
                             $years = $year + 543;
                         }
                         $date_start = "$Y-10-01";

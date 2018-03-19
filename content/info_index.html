@@ -30,6 +30,70 @@ $.getJSON('JsonData/month.php',function (data) {
     var PieCharts =  new AJAXCharts('container3','pie',title3,unit,'','JsonData/DC_pie2.php','');
     $(PieCharts.GetPie());     
     });
+    
+    var column1 = ["เดือน","จำนวนเรื่อง"];
+    var column2 = ["ชื่อ-นามสกุล","จำนวนเรื่อง"];
+    var tid = 'dbtable1';
+    var tid3 = 'dbtable3';
+    var tid2 = 'dbtable2';
+              
+              var CTb1 = new createTable(column1);
+              CTb1.GetTableAjax('JsonData/DT_Statistics.php','contentTB1');
+              
+              var CTb3 = new createTable(column2);
+              CTb3.GetTableAjax('JsonData/DT_Top10.php','contentTB3');
+    
+    var option = "$('<option value=''> เลือกปีงบประมาณ </option>')";
+    for (var i=2557;i<2566;i++) { 
+                                            option += "$('<option value='"+i+"'> "+i+" </option>'),";
+                                        }
+                                        $("select#yearS").empty().append(option);
+                                        
+            $("select#yearS").change(function () { 
+                $.getJSON('JsonData/dashboard.php',{data: $("#yearS").val()},function (data) { 
+                    var years = data.fyear;
+        $("#sum_rm").html(data.total);
+        $("#sum_rmD").text(data.review);
+        $("#sum_rmD2").text(data.assessment);
+        $("#sum_rmY").text(data.Y);
+        $("#sum_rmR").text(data.R);
+        $("#sum_rmG").text(data.G);
+        
+        $("#year").text(years);
+        $(".seyear").text(data.date_start+" ถึง "+data.date_end);
+                });
+                $.getJSON('JsonData/month.php',function (data) { 
+    var month = data.month
+    var year = data.year; 
+    var title1 = "จำนวนการแจ้งซ่อมจำแนกตามกลุ่มสาเหตุการเสีย แยกรายเดือน";
+    var title2 = "ความเสี่ยงแยกตามด้านในปีงบประมาณ "+year;
+    var title3 = "ความเสี่ยงแยกระดับความรุนแรงในปีงบประมาณ "+year;
+    var subtitle = "รายเดือน";
+    var unit = "ครั้ง";
+    
+    var CCharts =  new AJAXCharts('container1','line',title1,unit,month,'JsonData/DC_line1.php?'+$("#yearS").val(),subtitle);
+    $(CCharts.GetCL()); 
+    
+    var PieCharts =  new AJAXCharts('container2','pie',title2,unit,'','JsonData/DC_pie1.php?'+$("#yearS").val(),'');
+    $(PieCharts.GetPie()); 
+    
+    var PieCharts =  new AJAXCharts('container3','pie',title3,unit,'','JsonData/DC_pie2.php?'+$("#yearS").val(),'');
+    $(PieCharts.GetPie());     
+    });
+    var column1 = ["เดือน","จำนวนเรื่อง"];
+    var column2 = ["ชื่อ-นามสกุล","จำนวนเรื่อง"];
+    var tid = 'dbtable1';
+    var tid3 = 'dbtable3';
+    var tid2 = 'dbtable2';
+              
+              var CTb1 = new createTable(column1);
+              CTb1.GetTableAjax('JsonData/DT_Statistics.php?'+$("#yearS").val(),'contentTB1');
+              
+              var CTb3 = new createTable(column2);
+              CTb3.GetTableAjax('JsonData/DT_Top10.php?'+$("#yearS").val(),'contentTB3');
+    
+                                });   
+    
     $("#useronline").load("JsonData/user_online.php");
     });
     
@@ -125,6 +189,7 @@ $.getJSON('JsonData/month.php',function (data) {
                     </div><!-- /.box-tools -->
                 </div><!-- /.box-header -->
                 <div class="box-body">
+                    <div class='col-md-3 col-md-offset-9 form-group'><select name='yearS' class='form-control' id='yearS'></select></div>
                     <center>รายงานความเสี่ยง : ทั้งหมด&nbsp;&nbsp;ปีงบประมาณ : <b id="year"></b></center>
                     <div class="col-lg-12"><div id="container1" style="width: 100%; height: 100%; margin: 0 auto"></div></div>
                     <div class="col-lg-7"><div id="container2" style="width: 100%; height: 100%; margin: 0 auto"></div></div>
@@ -135,17 +200,7 @@ $.getJSON('JsonData/month.php',function (data) {
           </div>
 
 <script language="Javascript" type="text/javascript">
-var column1 = '["เดือน","จำนวนเรื่อง"]';
-    var column2 = '["ชื่อ-นามสกุล","จำนวนเรื่อง"]';
-    var tid = 'dbtable1';
-    var tid3 = 'dbtable3';
-    var tid2 = 'dbtable2';
-              
-              var CTb1 = new createTable(column1);
-              CTb1.GetTableAjax('JsonData/DT_Statistics.php','contentTB1');
-              
-              var CTb3 = new createTable(column2);
-              CTb3.GetTableAjax('JsonData/DT_Top10.php','contentTB3');
+
 </script>
 <div class="row">
        <div class="col-md-4">

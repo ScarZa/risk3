@@ -17,7 +17,7 @@ set_time_limit(0);
 
 $series = array();
 $data = array();
-if (empty($_POST['year'])) {
+if (empty($_GET['data'])) {
     if ($date >= $bdate and $date <= $edate) {
         $y = $Yy;
         $Y = date("Y");
@@ -26,7 +26,7 @@ if (empty($_POST['year'])) {
         $Y = date("Y") - 1;
     }
 } else {
-    $y = $_POST['year'] - 543;
+    $y = $_GET['data'] - 543;
     $Y = $y - 1;
 }
 $date_start = "$Y-10-01";

@@ -65,9 +65,10 @@ var AJAXCharts = function (container, type, title, unit, categories, data, subti
             useHTML: true
         };    
         }
+        var jsonsub=this.data.split("?");
         //ส่งค่า ID ให้ json_data.php
           //รับค่าที่เป็น object จาก file อื่น
-         $.getJSON(this.data, function (json) {
+         $.getJSON(jsonsub[0],{data: jsonsub[1]}, function (json) {
          for(var i=0;i<json.length;i++){
              options.series[i] = json[i];
       }
@@ -180,8 +181,12 @@ var AJAXCharts = function (container, type, title, unit, categories, data, subti
         },
         series: []
     });
+    var jsonsub=this.data.split("?");
+        //ส่งค่า ID ให้ json_data.php
+          //รับค่าที่เป็น object จาก file อื่น
+         
         var options = JSON.parse(optionString);
-        $.getJSON(this.data, function (json) {
+        $.getJSON(jsonsub[0],{data: jsonsub[1]}, function (json) {
          for(var i=0;i<json.length;i++){
              options.series[i] = json[i];
       }

@@ -1,24 +1,25 @@
 var createTable = function (column,level_col='1', tid=null,responsive=true) {
-    this.column = column;
+    //this.column = column;
     this.level_col = level_col;
     this.tid = tid;
     this.responsive = responsive;
 
-    this.columnOBJ = JSON.parse(this.column);
+    //this.columnOBJ = JSON.parse(this.column);
     //this.dataOBJ = JSON.parse(this.data);
     if(this.responsive == true){
         var resp = 'table-responsive';
     }else{
         var resp = '';
     }
+    
     this.GetHead = function () {
         var head = "<div class='"+resp+"'><table id='" + this.tid + "' class='table table-border table-hover' frame='below'>" +
                 "<thead bgcolor='#898888' style='text-align: center'>";
                 
         if(this.level_col=='2'){
             head += "<tr style='text-align: center'><th  style='text-align: center;vertical-align: middle;' width='5%' rowspan='2'>ลำดับ</th>";
-        for (var key in this.columnOBJ) {
-            colspan = this.columnOBJ[key].length;
+        for (var key in column) {
+            colspan = column[key].length;
 
             if (colspan == 0) {
                 head += "<th style='text-align: center;vertical-align: middle;' rowspan='2'>" + key + "</th>";
@@ -27,8 +28,8 @@ var createTable = function (column,level_col='1', tid=null,responsive=true) {
             }
         }
         head += "</tr><tr>";
-        for (var key in this.columnOBJ) {
-            var value = this.columnOBJ[key];
+        for (var key in this.column) {
+            var value = this.column[key];
             for (var keys in value) {
 
                 head += "<th style='text-align: center'>" + value[keys] + "</th>";
@@ -36,8 +37,8 @@ var createTable = function (column,level_col='1', tid=null,responsive=true) {
         }
     }else if(this.level_col=='1'){
         head += "<tr style='text-align: center'><th  style='text-align: center;vertical-align: middle;' width='5%'>ลำดับ</th>";
-        for (var key in this.columnOBJ) {
-            var value = this.columnOBJ[key];
+        for (var key in column) {
+            var value = column[key];
             //for (var keys in value) {
 
                 head += "<th style='text-align: center'>" + value + "</th>";
@@ -73,13 +74,13 @@ var createTable = function (column,level_col='1', tid=null,responsive=true) {
     }
 
     this.GetTableAjax = function (locate, content,detail=false ) {
-        this.locate = locate;
-
+        //this.locate = locate;
         var table = this.GetHead();
         table += "<tbody>";
         var order = 1;
-        var count_col=this.columnOBJ.length;
-        $.getJSON(this.locate, function (dataTB) {
+        var count_col=column.length;
+        var jsonsub=locate.split("?");
+        $.getJSON(jsonsub[0],{data: jsonsub[1]}, function (dataTB) { 
             if (dataTB != null && dataTB.length > 0) {
                 for (var i = 0; i < dataTB.length; i++) {
                     table += "<tr class='tr_c'>";
@@ -87,20 +88,17 @@ var createTable = function (column,level_col='1', tid=null,responsive=true) {
                     var c =0;
                     $.each( dataTB[i], function( dkey, val ) {
                         if(detail !=false){
-                            if(c< (count_col)-1){
+                            if(c< (count_col)-2){
                             table += "<td align='center'>" + val + "</td>";
-                         }else if(c == (count_col)-1){
-                            table += "<td align='center'><a href='index.html?page="+detail+"&data="+encode64(val)+"'><img src='images/icon_set1/file.ico' width='25'></a></td>";
-                        /*table += "<td class='td_c' align='center'><a href='#'><img src='images/icon_set1/file.ico' width='25'></a></td>";
-                        $('table').find('tr td a:nth-child(1)').attr("onclick","loadPage('#index_content',"+detail+","+val+")");
-                        //console.log(a1);
-                                /*a1.on('click',function(){
-                            //$(e.target).attr("onclick","loadPage('#index_content',"+detail+","+val+")");//#a1 
-                                    alert("yeyeyeyeye!!!");
-                            $('#index_content').load('content/detail_risk.php');
-                            });*/
+                         }else{ 
+                                if(c == (count_col)-2){
+                            table += "<td align='center'><a href='content/add_"+detail+".php?method=edit&id="+val+"' target='_blank'><img src='images/icon_set1/file.ico' width='25'></a></td>";
                             }
-                        }else{
+                                if(c == (count_col)-1){
+                            table += "<td align='center'><a href='index.php?page=process/prc"+detail+"&method=delete_"+detail+"&del_id="+val+"'><img src='images/icon_set1/file_delete.ico' width='25'></a></td>";
+                            }
+                        }
+                    }else{
                             table += "<td align='center'>" + val + "</td>";
                         }c++;
                 });

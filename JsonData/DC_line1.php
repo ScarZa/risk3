@@ -6,7 +6,7 @@ function __autoload($class_name) {
     include '../class/' . $class_name . '.php';
 }
 include '../template/plugins/function_date.php';
-if (empty($_POST['year'])) {
+if (empty($_GET['data'])) {
                         if($date >= $bdate and $date <= $edate){
                           $year = $Yy;
                         $years = $year + 543;      
@@ -16,7 +16,7 @@ if (empty($_POST['year'])) {
                         
                             }
                     } else {
-                        $year = $_POST['year'] - 543;
+                        $year = $_GET['data'] - 543;
                         $years = $year + 543;
                     }
 $conn_DB = new EnDeCode();
@@ -42,8 +42,8 @@ $cc=0;
     for ($i = -2; $i <= 9; $i++) {
         if($I>12){ $I=10;}
         if ($i <= 0) {
-            $month_start = "$Y-$I-01";
-            $month_end = "$Y-$I-31";
+            $month_start = ($year-1)."-$I-01";
+            $month_end = ($year-1)."-$I-31";
         } elseif ($i >= 1 and $i <= 9) {
             $month_start = "$year-0$i-01";
             $month_end = "$year-0$i-31";

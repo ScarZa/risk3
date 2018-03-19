@@ -12,7 +12,7 @@ $conn_DB->para_read($read);
 $conn_db = $conn_DB->Read_Text();
 $conn_DB->conn_PDO();
 set_time_limit(0);
-if (empty($_POST['year'])) {
+if (empty($_GET['data'])) {
     if ($date >= $bdate and $date <= $edate) {
         $year = $Yy;
         $years = $year + 543;
@@ -21,7 +21,7 @@ if (empty($_POST['year'])) {
         $years = $year + 543;
     }
 } else {
-    $year = $_POST['year'] - 543;
+    $year = $_GET['data'] - 543;
     $years = $year + 543;
 }
 $rslt = array();
@@ -35,8 +35,8 @@ for ($i = -2; $i <= 9; $i++) {
     $month = $conn_DB->select_a();
 
     if ($i <= 0) {
-        $month_start = "$Y-$I-01";
-        $month_end = "$Y-$I-31";
+        $month_start = ($year-1)."-$I-01";
+        $month_end = ($year-1)."-$I-31";
     } elseif ($i >= 1 and $i <= 9) {
         $month_start = "$year-0$i-01";
         $month_end = "$year-0$i-31";
@@ -44,16 +44,16 @@ for ($i = -2; $i <= 9; $i++) {
         $month_start = "$year-$i-01";
         $month_end = "$year-$i-31";
     }
-    if (!empty($year)) {
+    //if (!empty($year)) {
         $sql = "select count(takerisk_id) as number_risk
 		from takerisk t1  
 		LEFT OUTER JOIN category c1 on c1.category = t1.category
 		where t1.take_date between '$month_start' and '$month_end' and t1.move_status='N' order by number_risk DESC";
-    } else {
-        $sql = "select count(takerisk_id) as number_risk from takerisk t1  
-		LEFT OUTER JOIN category c1 on c1.category = t1.category
-		where t1.take_date between '$month_start' and '$month_end' and t1.move_status='N' order by number_risk DESC";
-    }
+//    } else {
+//        $sql = "select count(takerisk_id) as number_risk from takerisk t1  
+//		LEFT OUTER JOIN category c1 on c1.category = t1.category
+//		where t1.take_date between '$month_start' and '$month_end' and t1.move_status='N' order by number_risk DESC";
+//    }
     $conn_DB->imp_sql($sql);
     $num_risk = $conn_DB->select_a();
     $series['month_name'] = $month['month_name'];
