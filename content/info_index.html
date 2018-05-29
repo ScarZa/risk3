@@ -1,23 +1,24 @@
 <script language="Javascript" type="text/javascript">
     $(function(){
-        $.getJSON('JsonData/dashboard.php',function (data) {
+        $.when($.getJSON('JsonData/dashboard.php'))
+                .then(function( data, textStatus, jqXHR ){
            var years = data.fyear;
         $("#sum_rm").html(data.total);
         $("#sum_rmD").text(data.review);
         $("#sum_rmD2").text(data.assessment);
-        $("#sum_rmY").text(data.Y);
-        $("#sum_rmR").text(data.R);
-        $("#sum_rmG").text(data.G);
+        $("#sum_rmY").text(data.s0);
+        $("#sum_rmR").text(data.s1);
+        $("#sum_rmG").text(data.s2);
         
-        $("#year").text(years);
+        $(".year").text(years);
         $(".seyear").text(data.date_start+" ถึง "+data.date_end);
 });
-$.getJSON('JsonData/month.php',function (data) { 
+$.when($.getJSON('JsonData/month.php'))
+.then(function( data, textStatus, jqXHR ){ 
     var month = data.month
-    var year = data.year; 
-    var title1 = "จำนวนความเสี่ยงในแต่ละหมวดแยกรายเดือน";
-    var title2 = "ความเสี่ยงแยกตามด้านในปีงบประมาณ "+year;
-    var title3 = "ความเสี่ยงแยกระดับความรุนแรงในปีงบประมาณ "+year;
+     var title1 = "จำนวนความเสี่ยงในแต่ละหมวดแยกรายเดือน";
+    var title2 = "ความเสี่ยงแยกตามด้าน";
+    var title3 = "ความเสี่ยงแยกระดับความรุนแรง";
     var subtitle = "รายเดือน";
     var unit = "ครั้ง";
     
@@ -33,10 +34,7 @@ $.getJSON('JsonData/month.php',function (data) {
     
     var column1 = ["เดือน","จำนวนเรื่อง"];
     var column2 = ["ชื่อ-นามสกุล","จำนวนเรื่อง"];
-    var tid = 'dbtable1';
-    var tid3 = 'dbtable3';
-    var tid2 = 'dbtable2';
-              
+                  
               var CTb1 = new createTable(column1);
               CTb1.GetTableAjax('JsonData/DT_Statistics.php','contentTB1');
               
@@ -50,24 +48,23 @@ $.getJSON('JsonData/month.php',function (data) {
                                         $("select#yearS").empty().append(option);
                                         
             $("select#yearS").change(function () { 
-                $.getJSON('JsonData/dashboard.php',{data: $("#yearS").val()},function (data) { 
+                $.when($.getJSON('JsonData/dashboard.php',{data: $("#yearS").val()})).then(function( data, textStatus, jqXHR ){ 
                     var years = data.fyear;
         $("#sum_rm").html(data.total);
         $("#sum_rmD").text(data.review);
         $("#sum_rmD2").text(data.assessment);
-        $("#sum_rmY").text(data.Y);
-        $("#sum_rmR").text(data.R);
-        $("#sum_rmG").text(data.G);
+        $("#sum_rmY").text(data.s0);
+        $("#sum_rmR").text(data.s1);
+        $("#sum_rmG").text(data.s2);
         
-        $("#year").text(years);
+        $(".year").text(years);
         $(".seyear").text(data.date_start+" ถึง "+data.date_end);
                 });
-                $.getJSON('JsonData/month.php',function (data) { 
+                $.when($.getJSON('JsonData/month.php')).then(function( data, textStatus, jqXHR ){ 
     var month = data.month
-    var year = data.year; 
     var title1 = "จำนวนการแจ้งซ่อมจำแนกตามกลุ่มสาเหตุการเสีย แยกรายเดือน";
-    var title2 = "ความเสี่ยงแยกตามด้านในปีงบประมาณ "+year;
-    var title3 = "ความเสี่ยงแยกระดับความรุนแรงในปีงบประมาณ "+year;
+    var title2 = "ความเสี่ยงแยกตามด้าน";
+    var title3 = "ความเสี่ยงแยกระดับความรุนแรง";
     var subtitle = "รายเดือน";
     var unit = "ครั้ง";
     
@@ -190,10 +187,12 @@ $.getJSON('JsonData/month.php',function (data) {
                 </div><!-- /.box-header -->
                 <div class="box-body">
                     <div class='col-md-3 col-md-offset-9 form-group'><select name='yearS' class='form-control' id='yearS'></select></div>
-                    <center>รายงานความเสี่ยง : ทั้งหมด&nbsp;&nbsp;ปีงบประมาณ : <b id="year"></b></center>
+                    <center>รายงานความเสี่ยง : ทั้งหมด&nbsp;&nbsp;ปีงบประมาณ : <b class="year"></b></center>
                     <div class="col-lg-12"><div id="container1" style="width: 100%; height: 100%; margin: 0 auto"></div></div>
-                    <div class="col-lg-7"><div id="container2" style="width: 100%; height: 100%; margin: 0 auto"></div></div>
-                    <div class="col-lg-5"><div id="container3" style="width: 100%; height: 100%; margin: 0 auto"></div></div>
+                    
+                    <div class="col-lg-7"><center>ปีงบประมาณ : <b class="year"></b></center><div id="container2" style="width: 100%; height: 100%; margin: 0 auto"></div></div>
+                    
+                    <div class="col-lg-5"><center>ปีงบประมาณ : <b class="year"></b></center><div id="container3" style="width: 100%; height: 100%; margin: 0 auto"></div></div>
                 </div>
             </div>
         </div>

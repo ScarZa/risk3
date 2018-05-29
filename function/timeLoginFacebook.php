@@ -95,6 +95,7 @@ $DateThai = array(
 function generate_date_today($Format, $Timestamp, $Language = "en", $TimeText = true) {
     global $SuffixTime, $DateThai;
     //return date("i:H d-m-Y", $Timestamp) ." | ". date("i:H d-m-Y", time());
+    $Timestamp = (int)$Timestamp;
     if (date("Ymd", $Timestamp) >= date("Ymd", (time() - 345600)) && $TimeText) {    // Less than 3 days.
         $TimeStampAgo = (time() - $Timestamp);
 

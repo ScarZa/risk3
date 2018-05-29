@@ -14,7 +14,12 @@ $conn_DB->conn_PDO();
 $rslt=array();
 $result=array();
 $data = isset($_GET['data'])?$_GET['data']:'';
-$sql="select * from place order by name";
+if(!empty($data)){
+    $code = "where place = $data";
+} else {
+    $code = "";
+}
+$sql="select * from place $code order by name";
 $conn_DB->imp_sql($sql);
 $result=$conn_DB->select();
 print json_encode($result);

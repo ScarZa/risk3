@@ -35,21 +35,138 @@
         <!-- jvectormap -->
         <link rel="stylesheet" href="template/plugins/jvectormap/jquery-jvectormap-1.2.2.css">
         
-    
+    <!-------------- My Script -------------->
         <script language="Javascript" type="text/javascript" src="js/sendGetPost.js"></script>
         <script src="js/createTable.js" type="text/javascript"></script>
-        
+        <script src="js/createTableAjax.js" type="text/javascript"></script>
         <script src="js/AJAXCharts.js" type="text/javascript"></script>
         <script src="template/plugins/json2/json2.js" type="text/javascript"></script><!-- JSON2 -->
         <script src="js/base64EnDecode.js" type="text/javascript"></script>
+    <!-------------- End My Script -------------->
 <script type="text/javascript">
-            function loadPage(content,page,data){
-        $(content).empty().load(page,data, function(responseTxt, statusTxt, xhr){               
-        if(statusTxt == "error")
-            alert("Error: " + xhr.status + ": " + xhr.statusText);
-    });
-}
-
+            function loadPage(content, page, data) {
+                $(content).empty().load(page, data, function (responseTxt, statusTxt, xhr) {
+                    if (statusTxt == "error")
+                        alert("Error: " + xhr.status + ": " + xhr.statusText);
+                });
+            }
+        </script>
+        <script type="text/javascript">
+            function loadAjax(content, pagesend, data = null, getfunc = null, datatype = 'json', method = 'POST') {
+                var subgetfunc = getfunc.split("?");
+                $.when($.ajax({
+                    url: pagesend,
+                    method: method,
+                    data: {data: data},
+                    dataType: datatype}))
+                        .then(function( result, textStatus, jqXHR ) {
+                            if (subgetfunc[0] == 'WriteRisk') {
+                            WriteRisk(content, result);
+                        } else if (subgetfunc[0] == 'DetailRisk') {
+                            DetailRisk(content, result);
+                        } else if (subgetfunc[0] == 'AddHos') {
+                            AddHos(content, result);
+                        } else if (subgetfunc[0] == 'AddUser') {
+                            AddUser(content, result);
+                        }else if (subgetfunc[0] == 'AddPlace') {
+                            AddPlace(content, result);
+                        }else if (subgetfunc[0] == 'AddDepartment') {
+                            AddDepartment(content, result);
+                            if (subgetfunc[1] == 'AddMDep') {
+                                AddMDep(result);
+                                AddDep();
+                            } else if (subgetfunc[1] == 'AddDep') {
+                                AddMDep();
+                                AddDep(result);
+                            }
+                        }else if (subgetfunc[0] == 'AddCategory') {
+                            AddCategory(content, result);
+                            if (subgetfunc[1] == 'AddCate') {
+                                AddCate(result);
+                                AddSubCate();
+                            } else if (subgetfunc[1] == 'AddSubCate') {
+                                AddCate();
+                                AddSubCate(result);
+                            }
+                        }else if (subgetfunc[0] == 'AddResult') {
+                            AddResult(content, result);
+                        }else if (subgetfunc[0] == 'AddAnalysis') {
+                            AddAnalysis(content, result);
+                        }else if (subgetfunc[0] == 'AddEvaluate') {
+                            AddEvaluate(content, result);
+                        }else if (subgetfunc[0] == 'AddLevel') {
+                            AddLevel(content, result);
+                        }else if (subgetfunc[0] == 'DepRisk') {
+                            DepRisk(content, result);
+//                        }else if (subgetfunc[0] == 'CateRisk') {
+//                            CateRisk(content, result);
+//                        }else if (subgetfunc[0] == 'LevelRisk') {
+//                            LevelRisk(content, result);
+//                        }
+//                        else if (subgetfunc[0] == 'SubCateRisk') {
+//                            SubCateRisk(content, result);
+                        }else if (subgetfunc[0] == 'DepWriteRisk') {
+                            DepWriteRisk(content, result);
+                        } else if (subgetfunc[0] == 'logout') {
+                            alert(result);
+                            loadPage(content, 'content/NoLogon_index.html');
+                            location.reload();
+                        }
+                        });
+            }
+        </script>
+        <script type="text/javascript">
+            function DeleteData(pagesend, table = null, field = null, id = null, pageresend = 'content/info_index.html', datatype = 'json', method = 'POST') {
+                if (confirm('กรุณายืนยันการลบอีกครั้ง !!!')) {
+                    $.when($.ajax({
+                        url: pagesend,
+                        method: method,
+                        data: {table: table, field: field, id: id},
+                        dataType: datatype})).then(function( result, textStatus, jqXHR ) {
+                            alert(result);
+                            $("#index_content").empty().load(pageresend);
+                        });
+            }
+            }
+            /////เทคนิคการใช้ $.Deferred();
+//function subUrl() {
+//var deferred = new $.Deferred();
+//$.getJSON("url", function(data) {
+//deferred.resolve(data);
+//});
+//
+//return deferred;
+//}
+//
+//// เวลาใช้งาน
+//var test = subUrl();
+//
+//test.done(function(data) {
+//console.log(data);
+//})
+//.fail(function(err) {
+//console.error(err);
+//});
+            
+            function SubURL() {
+                var SubUrl = new $.Deferred();
+                    $.when($.getJSON('JsonData/URL.php')).done( function (data) { 
+                        var url = data.url.split("/");
+                        SubUrl.resolve(url);
+                    });
+                   return SubUrl;
+                }
+            function ShowQueryCookie(name) {
+                alert( $.cookie(name) );
+            }
+            function GetjQueryCookie(name,value) { 
+                var subUrl = SubURL();
+                    $.when(subUrl).done(function(data) { return $.cookie(name, value, { path: data[1]+'/Cookies', domain: data[0] });})
+            }
+            function RemovejQueryCookie(name) { 
+                var subUrl = SubURL();
+                    $.when(subUrl).done(function(data) { return $.removeCookie(name, { path: data[1]+'/Cookies', domain: data[0] });})
+            }
         </script>
         <script type="text/javascr">
             var str_test = getURL("test");
@@ -66,7 +183,7 @@
         </style>
     </head>
     <body class="hold-transition skin-blue-light fixed sidebar-mini">
-               <img src="images/black_ribbon_bottom_right.png" class="black-ribbon stick-bottom stick-right"/>
+<!--               <img src="images/black_ribbon_bottom_right.png" class="black-ribbon stick-bottom stick-right"/>-->
     <div class="wrapper">
       <header class="main-header">
         <!-- Logo -->
@@ -113,24 +230,31 @@
             </div>
                <!-- jQuery 2.1.4 -->
         <script src="template/plugins/jQuery/jQuery-2.1.4.min.js"></script>
-    <script src="js/gen_menu.js" type="text/javascript"></script>
-    <script type="text/javascript">
-            function getURL(objN){
-	if(objN==null){
-		return window.location.href;
-	}else{
-		objN = objN.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
-		var regexS = "[\\?&]"+objN+"=([^&#]*)";
-		var regex = new RegExp( regexS );
-		var results = regex.exec( window.location.href );
-		if( results == null )
-			return "";
-		else
-			return results[1];
-	}
-}
-        
-</script>
+        <script src="template/plugins/jQuery/jquery.cookie.js"></script>
+         <!-------------------------- My scripts -------------------------->       
+        <script src="js/gen_menu.js" type="text/javascript"></script>
+        <script src="js/write_risk.js" type="text/javascript"></script>
+        <script src="js/detail_risk.js" type="text/javascript"></script>
+        <script src="js/forwardmodal.js" type="text/javascript"></script>
+        <script src="js/recyclemodal.js" type="text/javascript"></script>
+        <script src="js/reviewRisk.js" type="text/javascript"></script>
+        <script src="js/assessRisk.js" type="text/javascript"></script>
+        <script src="js/add_user.js" type="text/javascript"></script>
+        <script src="js/add_hos.js" type="text/javascript"></script>
+        <script src="js/add_dep.js" type="text/javascript"></script>
+        <script src="js/add_place.js" type="text/javascript"></script>
+        <script src="js/add_category.js" type="text/javascript"></script>
+        <script src="js/add_result.js" type="text/javascript"></script>
+        <script src="js/add_analysis.js" type="text/javascript"></script>
+        <script src="js/add_evaluate.js" type="text/javascript"></script>
+        <script src="js/add_level.js" type="text/javascript"></script>
+        <script src="js/dep_risk.js" type="text/javascript"></script>
+        <script src="js/cate_risk.js" type="text/javascript"></script>
+        <script src="js/level_risk.js" type="text/javascript"></script>
+        <script src="js/subcate_risk.js" type="text/javascript"></script>
+        <script src="js/dep_writerisk.js" type="text/javascript"></script>
+        <!------------------------ End My scripts ------------------------> 
+
     <script src="template/plugins/DataTables/jquery.dataTables.min.js"></script>
     <script src="template/plugins/DataTables/dataTables.bootstrap.min.js"></script>
     <script src="template/plugins/moment.min.js"></script>
@@ -193,6 +317,49 @@
         
     });
     </script>-->
+            <script language="Javascript">
+            function MakeHour(content, hour = null) {
+                //var option = "$('<option value=''>ชั่วโมง</option>'),";
+                var option;
+                for (var i = 0; i <= 23; i++) {
+                    if (hour != null) {
+                        if (i == hour.substring(0, 2)) { 
+                            var selected = 'selected';
+                        } else {
+                            var selected = '';
+                        }
+                    } else {
+                        var selected = '';
+                    }
+                    if (i < 10) {
+                        option += "$('<option value='0" + i + "' " + selected + ">0" + i + "</option>'),";
+                    } else {
+                        option += "$('<option value='" + i + "' " + selected + ">" + i + "</option>'),";
+                    }
+                }
+                $(content).append(option);
+            }
+            function MakeMinute(content, minute = null) {
+                var option;
+                for (var i = 0; i <= 59; i++) {
+                    if (minute != null) {
+                        if (i == minute.substring(3, 5)) {
+                            var selected = 'selected';
+                        } else {
+                            var selected = '';
+                        }
+                    } else {
+                        var selected = '';
+                    }
+                    if (i < 10) {
+                        option += "$('<option value='0" + i + "' " + selected + ">0" + i + "</option>'),";
+                    } else {
+                        option += "$('<option value='" + i + "' " + selected + ">" + i + "</option>'),";
+                    }
+                }
+                $(content).append(option);
+            }
+        </script>
                     <script language="JavaScript">
             var HttPRequest = false;
             function doCallAjax(Sort) {
@@ -255,6 +422,25 @@
                 properties = "width=" + windowWidth + ",height=" + windowHeight;
                 properties += ",scrollbars=yes, top=" + mytop + ",left=" + myleft;
                 window.open(url, name, properties);
+            }
+        </script>
+        <script type="text/javascript">
+            function inputDigits(sensor) {
+                var regExp = /[0-9.-]$/;
+                if (!regExp.test(sensor.value)) {
+                    alert("กรอกตัวเลขเท่านั้นครับ");
+                    sensor.value = sensor.value.substring(0, sensor.value.length - 1);
+                }
+            }
+        </script>
+        <!--scrip check ตัวอักษร-->
+        <script type="text/javascript">
+            function inputString(sensor) {
+                var regExp = /[A-Za-zก-ฮะ-็่-๋์]$/;
+                if (!regExp.test(sensor.value)) {
+                    alert("กรอกตัวอักษรเท่านั้นครับ");
+                    sensor.value = sensor.value.substring(0, sensor.value.length - 1);
+                }
             }
         </script>
     </body>

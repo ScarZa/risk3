@@ -77,10 +77,12 @@ class dbPDO_mng extends ConnPDO_db{
         return $result;
     }
 //    ฟังก์ชันสำหรับการ insert ข้อมูล
-    function insert($table, $data) {
+    function insert($table, $data, $field=null) {
         $this->table = $table;
         $this->data = $data;
+        if(!empty($field)){ $this->field = $field;}
         $this->db=$this->conn_PDO();
+                if(empty($this->field)){
         $fields = "";
         $values = "";
         $var = $this->listfield($this->table); //การใช้งาน function ใน class เดียวกัน
@@ -95,6 +97,22 @@ class dbPDO_mng extends ConnPDO_db{
             $values.="'$val'";
             $i++;
         }
+                }else{
+            $var = $this->field;
+            $fields = "";
+            $values = "";
+            $i = 0;
+            foreach ($this->data as $key => $val) {
+            if ($i != 0) {
+                $fields.=", ";
+                $values.=", ";
+            }
+            $fields.="$var[$key]";
+            $values.="'$val'";
+            $i++;
+        }
+        }
+
         $this->sql = "INSERT INTO $this->table ($fields) VALUES ($values)";
         try
 		{
@@ -198,13 +216,14 @@ class dbPDO_mng extends ConnPDO_db{
     }
 
 //    ฟังก์ชันสำหรับการ update ข้อมูล
-    function update($table, $data, $where, $field=null, $execute) {
+    function update($table, $data, $where, $field=null, $execute=null) {
         
-        $this->execute=$execute;
+        
         $this->table = $table;
         $this->data = $data;
         $this->where = $where;
         if(!empty($field)){ $this->field = $field;}
+        if(!empty($execute)){ $this->execute=$execute;}
         $this->db=$this->conn_PDO();
         $modifs = "";
         $i = 0;
@@ -229,7 +248,7 @@ class dbPDO_mng extends ConnPDO_db{
         try
 		{
         $data = $this->db->prepare($this->sql);
-        $data->execute($this->execute); 
+        if(isset($this->execute)){ $data->execute($this->execute);}
         return true;
                 } catch(PDOException $e)
 		{

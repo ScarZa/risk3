@@ -12,6 +12,7 @@ set_time_limit(0);
 $sql = "select count(takerisk_id) AS countrisk from takerisk WHERE move_status='Y' and recycle='N' and subcategory!='' group by move_status";
 $conn_DB->imp_sql($sql);
 $result = $conn_DB->select_a();
+$result['countrisk'] = empty($result['countrisk'])?0:$result['countrisk'];
 ?>
                 <a href="JavaScript:doCallAjax('countrisk');" class="dropdown-toggle" data-toggle="dropdown">
                     <i style="color: yellow;" class="fa fa-bell-o"></i>
@@ -53,7 +54,8 @@ $result = $conn_DB->select_a();
                                     }
 ?>
                       <li>
-                          <a href="index.html?page=content/detail_risk.php&data=<?= base64_encode($result2[$i]['takerisk_id'])?>">
+<!--                          <a href="index.html?page=content/detail_risk.php&data=<?= base64_encode($result2[$i]['takerisk_id'])?>">-->
+                          <a href="#" onclick="DetailRisk ('#index_content',{data:<?=$result2[$i]['takerisk_id']?>})">
                       <i class="<?=$icon?> text-<?= $color?>"></i>  <?= $result2[$i]['name']?> 
                         </a>
                       </li>

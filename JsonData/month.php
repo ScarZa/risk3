@@ -22,26 +22,7 @@ $month= array();
     
     include_once '../template/plugins/function_date.php';
     include_once '../template/plugins/funcDateThai.php';
-    if (empty($_GET['year'])) {
-     if($date >= $bdate and $date <= $edate){
-                             $y= $Yy;
-                             $Y= date("Y");
-                             $year = $Yy;
-                             $years = $year + 543;
-                            }else{
-                            $y = date("Y");
-                            $Y = date("Y") - 1;
-                            $year = date('Y');
-                            $years = $year + 543;
-                            }
-                        } else {
-                            $YeaR=$_GET['year'];
-                            $y = $_GET['year'] - 543;
-                            $Y = $y - 1;
-                            $year = $_POST['year'] - 543;
-                            $years = $year + 543;
-                        }
-    $series['year']=$years;
+
     $series['month']=$month;
     print json_encode($series);
     $conn_DB->close_PDO();

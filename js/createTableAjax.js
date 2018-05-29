@@ -27,7 +27,7 @@ var createTableAjax = function () {
             	table.appendChild (tBody);
                 tBody.setAttribute("style","text-align: center");
                 var jsonsub=jsonsource.split("?");
-                $.getJSON(jsonsub[0],{data: jsonsub[1]}, function (dataTB) {
+                $.when($.getJSON(jsonsub[0],{data: jsonsub[1],data2: jsonsub[2],data3: jsonsub[3],data4: jsonsub[4]})).done( function (dataTB) {
                 var value=[];
                     if (dataTB != null && dataTB.length > 0) {
                 for (var i = 0; i < dataTB.length; i++) {
@@ -110,8 +110,11 @@ var createTableAjax = function () {
 					delButton.setAttribute("onclick","DeleteData('JsonData/DeleteFile.php','"+deltable+"','"+delfield+"','"+value[0]+"','"+resend+"','html');");
                                     }
             }
-            	var container = document.getElementById (content);
-            	container.appendChild(table);
+//            	var container = document.getElementById (content);
+//            	container.appendChild(table);
+                $('#' + content + '').html(table);
+            }else{
+                $('#' + content + '').text("ไม่มีข้อมูลแสดงครับ ^_^ ");
             }
             $("td:contains("+red+")").attr("style","background-color: #d61b1b;color: white");
             $("td:contains("+orange+")").attr("style","background-color: #e08002;color: white");

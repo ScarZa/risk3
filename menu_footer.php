@@ -23,7 +23,7 @@ $db=$conn_DB->conn_PDO();
             <h3 class="control-sidebar-heading">Recent Activity</h3>
             <ul class="control-sidebar-menu">
               <li>
-                <a href="index.php">
+                  <a href="#" onclick="loadPage('#index_content','content/info_index.html');">
                   <i class="menu-icon fa fa-home bg-red"></i>
                   <div class="menu-info">
                     <h4 class="control-sidebar-subheading">Home</h4>
@@ -31,7 +31,7 @@ $db=$conn_DB->conn_PDO();
                   </div>
                 </a>
               </li>
-              <li>
+<!--              <li>
                 <a href="index.php?page=content/add_person">
                   <i class="menu-icon fa fa-user bg-yellow"></i>
                   <div class="menu-info">
@@ -60,7 +60,7 @@ $db=$conn_DB->conn_PDO();
               </li>
             </ul><!-- /.control-sidebar-menu -->
 
-            <h3 class="control-sidebar-heading">Tasks Progress</h3>
+<!--            <h3 class="control-sidebar-heading">Tasks Progress</h3>
             <ul class="control-sidebar-menu">
               <li>
                 <a href="javascript::;">
@@ -106,8 +106,8 @@ $db=$conn_DB->conn_PDO();
                   </div>
                 </a>
               </li>
-            </ul><!-- /.control-sidebar-menu -->
-
+             /.control-sidebar-menu -->
+            </ul>
           </div><!-- /.tab-pane -->
           <!-- Stats tab content -->
           <div class="tab-pane" id="control-sidebar-stats-tab">Stats Tab Content</div><!-- /.tab-pane -->
@@ -118,22 +118,64 @@ $db=$conn_DB->conn_PDO();
               <?php $check = md5(trim('check'));?>
               <div class="form-group">
                 <label class="control-sidebar-subheading">
-                    <a href="#" onClick="return popup('set_conn_db.php?method=<?= $check ?>&host=main', popup, 400, 600);" title="Config Database">
+                    <a href="#" onClick="return popup('content/set_conn_db.php?method=<?= $check ?>&host=main', popup, 400, 600);" title="Config Database">
                         <img src="images/icon_set2/gear.ico" width="25">&nbsp;&nbsp; Connect Database Main </a>
                 </label>
               </div><!-- /.form-group -->
               <div class="form-group">
                 <label class="control-sidebar-subheading">
-                    <a href="index.php?page=content/add_user">
+                    <a href="#" onclick="loadPage('#index_content','content/add_user.html');">
                         <img src="images/icon_set2/gear.ico" width="25">&nbsp;&nbsp; ตั้งค่าผู้ใช้งาน </a>
                 </label>
               </div><!-- /.form-group -->
               <div class="form-group">
                 <label class="control-sidebar-subheading">
-                    <a href="index.php?page=content/add_hos">
+                    <a href="#" onclick="loadPage('#index_content','content/add_hos.html');">
                         <img src="images/icon_set2/gear.ico" width="25">&nbsp;&nbsp; ตั้งค่าองค์กร </a>
                 </label>
               </div>
+              <div class="form-group">
+                <label class="control-sidebar-subheading">
+                    <a href="#" onclick="loadPage('#index_content','content/add_department.html');">
+                        <img src="images/icon_set2/gear.ico" width="25">&nbsp;&nbsp; ตั้งค่าฝ่าย/งาน </a>
+                </label>
+              </div><!-- /.form-group -->
+              <div class="form-group">
+                <label class="control-sidebar-subheading">
+                    <a href="#" onclick="loadPage('#index_content','content/add_place.html');">
+                        <img src="images/icon_set2/gear.ico" width="25">&nbsp;&nbsp; ตั้งค่าสถานที่/กระบวนการ </a>
+                </label>
+              </div><!-- /.form-group -->
+              <div class="form-group">
+                <label class="control-sidebar-subheading">
+                    <a href="#" onclick="loadPage('#index_content','content/add_category.html');">
+                        <img src="images/icon_set2/gear.ico" width="25">&nbsp;&nbsp; ตั้งค่าหมวด /<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;รายการความเสี่ยง </a>
+                </label>
+              </div><!-- /.form-group -->
+              <div class="form-group">
+                <label class="control-sidebar-subheading">
+                    <a href="#" onclick="loadPage('#index_content','content/add_level.html');">
+                        <img src="images/icon_set2/gear.ico" width="25">&nbsp;&nbsp; ตั้งค่าระดับความรุนแรง </a>
+                </label>
+              </div><!-- /.form-group -->
+              <div class="form-group">
+                <label class="control-sidebar-subheading">
+                    <a href="#" onclick="loadPage('#index_content','content/add_result.html');">
+                        <img src="images/icon_set2/gear.ico" width="25">&nbsp;&nbsp; ตั้งค่าผลการประเมิน </a>
+                </label>
+              </div><!-- /.form-group -->
+              <div class="form-group">
+                <label class="control-sidebar-subheading">
+                    <a href="#" onclick="loadPage('#index_content','content/add_analysis.html');">
+                        <img src="images/icon_set2/gear.ico" width="25">&nbsp;&nbsp; ตั้งค่าผลการวิเคราะห์ </a>
+                </label>
+              </div><!-- /.form-group -->
+              <div class="form-group">
+                <label class="control-sidebar-subheading">
+                    <a href="#" onclick="loadPage('#index_content','content/add_evaluate.html');">
+                        <img src="images/icon_set2/gear.ico" width="25">&nbsp;&nbsp; ตั้งค่าระยะเวลาดำเนินการ </a>
+                </label>
+              </div><!-- /.form-group -->
               <div class="form-group">
                 <label class="control-sidebar-subheading">
                     <a href="#" onclick="confirm('กรุณายืนยันการสำรองข้อมูลอีกครั้ง !!!');loadPage('#index_content','content/backup.php');">
@@ -148,7 +190,7 @@ $db=$conn_DB->conn_PDO();
               </div>
               <div class="form-group">
                 <label class="control-sidebar-subheading">
-                    <a href="#" onClick="return popup('about.php', popup, 500, 600);" title="ทีมพัฒนา">
+                    <a href="#" onClick="loadPage('#index_content','content/about.html')" title="ทีมพัฒนา">
                     <img src="images/Paper Mario.ico" width="25">&nbsp;&nbsp; ทีมพัฒนา</a>
                 </label>
               </div>

@@ -6,12 +6,14 @@
              
 <script language="Javascript" type="text/javascript">
     //var column1 = '{"รายการความเสี่ยงที่รอ RM man มาตรวจสอบ":["เลขที่","รายการ","เกิดขึ้นเมื่อ","ได้รับเมื่อ"]}';
-    var column1 = '["เลขที่","รายการ","เกิดขึ้นเมื่อ","ได้รับเมื่อ","ตรวจสอบ"]';
+    var column1 = ["เลขที่","รายการ","เกิดขึ้นเมื่อ","ได้รับเมื่อ","ตรวจสอบ"];
     var tid = 'dbtable1';
     var tid3 = 'dbtable3';
     var tid2 = 'dbtable2';
-              var CTb = new createTable(column1,'1',tid);
-              CTb.GetTableAjax('JsonData/DT_CR.php','contentTB','content/detail_risk.php');
+              var CTb = new createTableAjax();
+              //CTb.GetNewTableAjax('JsonData/DT_CR.php','contentTB','content/detail_risk.php');
+              CTb.GetNewTableAjax('contentTB','JsonData/DT_CR.php','JsonData/tempSendData.php',column1
+              ,null,null,null,null,false,true,'DetailRisk',false,null,false,null,null,null,null,null,'dbtb');
 </script>
 <div class="row">
     <div class="col-md-12">
@@ -28,26 +30,3 @@
             </div>
     </div>
 </div>
-    
-    <!-- page script 
-    <script>
-      $(function () {
-        $("#dbtable1").DataTable({"ajax": "content/check_risk.html"});
-        $('#dbtable2').DataTable({
-            "paging": true,
-            "lengthChange": false,
-            "searching": false,
-            "ordering": true,
-            "info": true,
-            "autoWidth": false
-        });
-        $('#dbtable3').DataTable({
-            "paging": false,
-            "lengthChange": true,
-            "searching": true,
-            "ordering": true,
-            "info": true,
-            "autoWidth": true
-        });
-    });
-    </script>-->

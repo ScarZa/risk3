@@ -28,19 +28,21 @@ if($db != FALSE){
                                     $pic = 'agency.ico';
                                     $fol = "images";
                                 }
-}else {
-                                    $pic = 'agency.ico';
-                                    $fol = "images";
-                                }
-    
                                 
 $data= array();
 $data['logo'] = $fol.'/'.$pic;
+$data['name2'] = $resultComm['name2'];
 $data['rm_id'] = isset($_SESSION['rm_id'])?(int) $_SESSION['rm_id']:'';
 $data['rm_fullname'] = isset($_SESSION['rm_fullname'])?$_SESSION['rm_fullname']:'';
 $data['rm_dep'] = isset($_SESSION['rm_dep'])?(int) $_SESSION['rm_dep']:'';
 $data['rm_main_dep'] = isset($_SESSION['rm_main_dep'])?(int) $_SESSION['rm_main_dep']:'';
 $data['rm_status'] = isset($_SESSION['rm_status'])?$_SESSION['rm_status']:''; 
 print json_encode($data);
+}else {
+    $data['check']=  md5(trim('check'));
+    $data['conn']='Connect_DB_false';
+    print json_encode($data);
+                                }
+    
 $conn_DB->close_PDO();
 ?>

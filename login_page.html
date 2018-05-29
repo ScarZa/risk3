@@ -3,6 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>ระบบบริหารจัดการความเสี่ยง</title>
                 <!-- Bootstrap 3.3.5 -->
         <link rel="stylesheet" href="template/bootstrap/css/bootstrap.min.css">
         <!-- Font Awesome -->
@@ -28,7 +29,7 @@
       </div><!-- /.login-logo -->
       <div class="login-box-body">
         <p class="login-box-msg">เข้าสู่ระบบเพื่อเริ่มใช้งาน</p>
-        <form action="process/check_login.php" method="post">
+        <form id="frmlogin" name="frmlogin" method="post">
           <div class="form-group has-feedback">
               <input type="text" class="form-control" placeholder="Username" name="user_account" required>
             <span class="glyphicon glyphicon-user form-control-feedback"></span>
@@ -58,14 +59,32 @@
               $("head").prepend($("<title></title>").text("ระบบบริหารความเสี่ยง"),$("<link rel='SHORTCUT ICON' href='"+data.logo+"'>"));  
           });
     </script>
-    <script>
-      $(function () {
-        $('input').iCheck({
-          checkboxClass: 'icheckbox_square-blue',
-          radioClass: 'iradio_square-blue',
-          increaseArea: '20%' // optional
-        });
-      });
+    <script type="text/javascript">
+    $(function () {
+        $("button:submit").click(function(e) {
+                                        e.preventDefault();
+        				$.ajax({
+					   type: "POST",
+					   url: "process/check_login.php",
+                                           data: $("#frmlogin").serialize(),
+					   success: function(result) {
+                                               if(result!=''){
+                                                   alert(result);
+                                                   $("#frmlogin").find('input:text, input:password').val('');
+                                               }else{
+                                               KillMe();self.focus();window.opener.location.reload();
+                                           }
+					   }
+					 });
+                    });
+    });
     </script>
+    <script language="JavaScript" type="text/javascript">
+            var StayAlive = 1; // เวลาเป็นวินาทีที่ต้องการให้ WIndows เปิดออก 
+            function KillMe()
+            {
+                setTimeout("self.close()", StayAlive * 1000);
+            }
+        </script>
   </body>
 </html>

@@ -25,7 +25,7 @@ $conn_DB->imp_sql($sql);
     $series['take_date']= DateThai1($num_risk[$i]['take_date']);
     $series['rec_date']= DateThai1($num_risk[$i]['take_rec_date']);
     //$series['detail_id'] = $conn_DB->sslEnc($num_risk[$i]['takerisk_id']);
-    $series['detail_id'] = $num_risk[$i]['takerisk_id'];
+    //$series['detail_id'] = $num_risk[$i]['takerisk_id'];
     array_push($rslt, $series);    
     }
 print json_encode($rslt);

@@ -68,7 +68,7 @@ var AJAXCharts = function (container, type, title, unit, categories, data, subti
         var jsonsub=this.data.split("?");
         //ส่งค่า ID ให้ json_data.php
           //รับค่าที่เป็น object จาก file อื่น
-         $.getJSON(jsonsub[0],{data: jsonsub[1]}, function (json) {
+         $.getJSON(jsonsub[0],{data: jsonsub[1],data2: jsonsub[2],data3: jsonsub[3],data4: jsonsub[4]}, function (json) {
          for(var i=0;i<json.length;i++){
              options.series[i] = json[i];
       }

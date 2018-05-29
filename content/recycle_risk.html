@@ -1,0 +1,43 @@
+            <h2 style="color: blue">ความเสี่ยงในถังขยะ</h2>
+            <ol class="breadcrumb">
+              <li><a href="index.html"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+              <li class="active"><i class="fa fa-wrench"></i> ความเสี่ยงในถังขยะ</li>
+            </ol>
+             
+<script language="Javascript" type="text/javascript">
+    var BY = new Date();
+    $("#Budget").empty().append("ปีงบประมาณ : "+(BY.getFullYear()+543));
+    var option = "$('<option value=''> เลือกปีงบประมาณ </option>')";
+    for (var i=2557;i<2566;i++) { 
+                                            option += "$('<option value='"+i+"'> "+i+" </option>'),";
+                                        }
+                                        $("select#yearS").empty().append(option);
+    //var column1 = '{"รายการความเสี่ยงที่รอ RM man มาตรวจสอบ":["เลขที่","รายการ","เกิดขึ้นเมื่อ","ได้รับเมื่อ"]}';
+              var column1 = ["เลขที่","รายการ","ได้รับเมื่อ","สถานะ","รายละเอียด"];
+              var CTb = new createTableAjax();
+              //CTb.GetNewTableAjax('JsonData/DT_CR.php','contentTB','content/detail_risk.php');
+              CTb.GetNewTableAjax('contentTB','JsonData/DT_RCR.php?'+$("#yearS").val(),'JsonData/tempSendData.php',column1
+              ,null,null,null,null,false,true,'DetailRisk',false,null,false,null,'ถังขยะ',null,null,null,'dbtb');
+              $("select#yearS").change(function () {
+                  $("#Budget").empty().append("ปีงบประมาณ : "+$("#yearS").val());
+                  CTb.GetNewTableAjax('contentTB','JsonData/DT_RCR.php?'+$("#yearS").val(),'JsonData/tempSendData.php',column1
+              ,null,null,null,null,false,true,'DetailRisk',false,null,false,null,'ถังขยะ',null,null,null,'dbtb');
+              });
+</script>
+<div class="row">
+    <div class='col-md-3 col-md-offset-9 form-group'><select name='yearS' class='form-control' id='yearS'></select></div>
+    <div class="col-md-12">
+            <div class="box box-primary box-solid">
+                <div class="box-header with-border">
+                    <h4 class="box-title"><i class="fa fa-star"></i> รายการความเสี่ยงที่ถูกประเมินแล้ว ไม่รับเป็นความเสี่ยง เช่น รายงานซ้ำ, ข้อความไม่สมบูรณ์ เป็นต้น </h4>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                    </div><!-- /.box-tools -->
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                    <div align="center" id="Budget"></div>
+                    <div id="contentTB"></div>
+                </div>
+            </div>
+    </div>
+</div>

@@ -2,10 +2,10 @@
 function string_to_ascii($string)
 {
     $ascii = NULL;
-	
-    for ($i = 0; $i < strlen($string); $i++) 
+    $sub_str = str_split($string);
+    for ($i = 0; $i < count($sub_str); $i++) 
     { 
-    	$ascii += ord($string[$i]); 
+    	$ascii .= ord($sub_str[$i]); 
     }
     
     return($ascii);

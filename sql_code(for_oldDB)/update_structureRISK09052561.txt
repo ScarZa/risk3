@@ -1,0 +1,48 @@
+ALTER TABLE `level_risk` 
+DROP COLUMN `time_take`,
+MODIFY COLUMN `num` int(2) NOT NULL AUTO_INCREMENT AFTER `name`,
+DROP PRIMARY KEY,
+ADD PRIMARY KEY (`num`) USING BTREE;
+
+ALTER TABLE `takerisk` 
+ADD COLUMN `LR_id` int(2) NOT NULL AFTER `level_risk`;
+
+###ถ้ามีข้อมูลอยู่ให่รันโค้ดนี้ ถ้าไม่ก็ไม่ต้อง
+UPDATE takerisk SET LR_id=1 WHERE level_risk='A';
+UPDATE takerisk SET LR_id=2 WHERE level_risk='B';
+UPDATE takerisk SET LR_id=3 WHERE level_risk='C';
+UPDATE takerisk SET LR_id=4 WHERE level_risk='D';
+UPDATE takerisk SET LR_id=5 WHERE level_risk='E';
+UPDATE takerisk SET LR_id=6 WHERE level_risk='F';
+UPDATE takerisk SET LR_id=7 WHERE level_risk='G';
+UPDATE takerisk SET LR_id=8 WHERE level_risk='H';
+UPDATE takerisk SET LR_id=9 WHERE level_risk='I';
+#############
+
+ALTER TABLE `mngrisk` 
+ADD COLUMN `adminchk_id` int(2) NOT NULL AFTER `admin_check`;
+
+###ถ้ามีข้อมูลอยู่ให่รันโค้ดนี้ ถ้าไม่ก็ไม่ต้อง
+UPDATE mngrisk SET adminchk_id=1 WHERE admin_check='R';
+UPDATE mngrisk SET adminchk_id=2 WHERE admin_check='Y';
+UPDATE mngrisk SET adminchk_id=3 WHERE admin_check='G';
+#############
+
+ALTER TABLE `level_risk` 
+ADD COLUMN `group_LV` int(2) NOT NULL AFTER `name`;
+
+UPDATE level_risk set group_LV = 1;
+
+ALTER TABLE `hospital` 
+ADD COLUMN `url` varchar(255) AFTER `logo`;
+
+ALTER TABLE `hospital` 
+ADD COLUMN `name2` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci AFTER `name`;
+
+ALTER TABLE `department_group` 
+MODIFY COLUMN `main_dep` int(2) NOT NULL AUTO_INCREMENT FIRST;
+
+
+##########เพิ่ม admin
+INSERT INTO `user`(`user_fname`, `user_lname`, `user_name`, `user_account`, `user_pwd`, `dep_id`, `main_dep`,`admin`) 
+VALUES ('ผู้ดูแล', 'ระบบความเสี่ยง', 'admin', 'a5d7bd84c97e56c8ca0ea52e78cec2b8', '6add49f09e475934b443e973eee9bbe9', '1', 1, 'Y');

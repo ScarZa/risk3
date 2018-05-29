@@ -1,0 +1,7 @@
+ALTER TABLE `mngrisk` 
+DROP INDEX `takerisk_id`;
+
+ALTER TABLE `mngrisk` 
+ADD COLUMN `chk_show` int(1) AFTER `admin_check`;
+
+UPDATE mngrisk SET chk_show=1;

@@ -22,7 +22,7 @@ class upload_resizeimage {
 
     public function upload() {
 if (isset($_FILES["$this->file"]["type"])) {
-    $validextensions = array("jpeg", "jpg", "png");
+    $validextensions = array("jpeg", "jpg", "png","JPEG", "JPG", "PNG");
     $temporary = explode(".", $_FILES["$this->file"]["name"]);
     $file_extension = end($temporary);
     if ((($_FILES["$this->file"]["type"] == "image/png") || ($_FILES["$this->file"]["type"] == "image/jpg") || ($_FILES["$this->file"]["type"] == "image/jpeg") || ($_FILES["$this->file"]["type"] == "image/gif")

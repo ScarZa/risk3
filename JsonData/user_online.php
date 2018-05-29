@@ -11,7 +11,7 @@ $conn_DB->para_read($read);
 $conn_DB->Read_Text();
 $db=$conn_DB->conn_PDO();
                         include_once '../function/timeLoginFacebook.php';
-                        $sql = "select * from user   order by time_login  DESC LIMIT 12";
+                        $sql = "select * from user WHERE time_login!='' order by time_login  DESC LIMIT 12";
                         $conn_DB->imp_sql($sql);
                         $result=$conn_DB->select();
                         for ($i=0;$i<count($result);$i++) {

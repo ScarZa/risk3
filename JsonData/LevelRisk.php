@@ -9,7 +9,7 @@ $read = "../connection/conn_DB.txt";
 $conn_DB->para_read($read);
 $conn_db = $conn_DB->Read_Text();
 $conn_DB->conn_PDO();
-$sql = "SELECT level_risk FROM level_risk";
+$sql = "SELECT level_risk,num FROM level_risk";
 
     $conn_DB->imp_sql($sql);
     $LevelRisk = $conn_DB->select();

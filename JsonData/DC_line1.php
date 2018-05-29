@@ -25,16 +25,16 @@ $conn_DB->para_read($read);
 $conn_db = $conn_DB->Read_Text();
 $conn_DB->conn_PDO();
 set_time_limit(0);
-$num_category = "select count(category) as count_cate from category";
-$conn_DB->imp_sql($num_category);
-$count_cate = $conn_DB->select_a();
-$count_categ = $count_cate['count_cate'];
 $rslt = array();
 $series = array();
 
 $I = 10;
-for ($c = 1; $c <= $count_categ; $c++) {
-    $sql_name = "select name from category where category='$c'";
+
+$num_category = "select category from category order by category";
+                            $conn_DB->imp_sql($num_category);
+                            $category = $conn_DB->select();
+                            foreach ($category as $key => $value) {
+    $sql_name = "select name from category where category=".$value['category'];
     $conn_DB->imp_sql($sql_name);
     $cat_name = $conn_DB->select_a();
 $countnum = array();
@@ -53,7 +53,7 @@ $cc=0;
         }
             $sql = "select count(takerisk_id) as number_risk from takerisk t1  
                     LEFT OUTER JOIN category c1 on c1.category = t1.category
-                    where  t1.category='$c' and t1.take_date between '$month_start' and '$month_end' 
+                    where  t1.category='".$value['category']."' and t1.take_date between '$month_start' and '$month_end' 
                     and t1.move_status='N' order by number_risk DESC";
             $conn_DB->imp_sql($sql);
             $rs = $conn_DB->select_a();
