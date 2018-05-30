@@ -27,7 +27,10 @@ var createTableAjax = function () {
             	table.appendChild (tBody);
                 tBody.setAttribute("style","text-align: center");
                 var jsonsub=jsonsource.split("?");
-                $.when($.getJSON(jsonsub[0],{data: jsonsub[1],data2: jsonsub[2],data3: jsonsub[3],data4: jsonsub[4]})).done( function (dataTB) {
+                $.when($.getJSON(jsonsub[0],{data: jsonsub[1],data2: jsonsub[2],data3: jsonsub[3],data4: jsonsub[4],data5: jsonsub[5]})).then( function (dataTB, textStatus, xhr) { 
+                    if(xhr.readyState==3){
+                        $('#' + content + '').html("กำลังโหลดจ้า.... ^_^ ");
+                    } 
                 var value=[];
                     if (dataTB != null && dataTB.length > 0) {
                 for (var i = 0; i < dataTB.length; i++) {
@@ -116,10 +119,14 @@ var createTableAjax = function () {
             }else{
                 $('#' + content + '').text("ไม่มีข้อมูลแสดงครับ ^_^ ");
             }
-            $("td:contains("+red+")").attr("style","background-color: #d61b1b;color: white");
+//            $("td:contains("+red+")").attr("style","background-color: #d61b1b;color: white");
+//            $("td:contains("+orange+")").attr("style","background-color: #e08002;color: white");
+//            $("td:contains("+yellow+")").attr("style","background-color: #e3fc07;");
+            //$("td:contains("+green+")").attr("style","background-color: #40ad57;color: white");
+            $("td:contains("+red+")").empty().append($("<font color='#ff0000'><span class='fa fa-times-circle fa-2x'></span></font>"));
             $("td:contains("+orange+")").attr("style","background-color: #e08002;color: white");
-            $("td:contains("+yellow+")").attr("style","background-color: #e3fc07;");
-            $("td:contains("+green+")").attr("style","background-color: #40ad57;color: white");
+            $("td:contains("+yellow+")").empty().append($("<font color='#e9b603'><span class='fa fa-exclamation-circle fa-2x'></span></font>"));
+            $("td:contains("+green+")").empty().append($("<font color='#158d06'><span class='fa fa-check-circle fa-2x'></span></font>"));
             $("#"+tid1+"").DataTable();
             $("#"+tid2+"").DataTable({
             "paging": true,
@@ -137,6 +144,7 @@ var createTableAjax = function () {
             "info": true,
             "autoWidth": true
         });
+          
     });
     }    
 
