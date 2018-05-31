@@ -35,19 +35,18 @@ if (empty($_GET['data'])) {
                         $date_start = "$Y-10-01";
                         $date_end = "$y-09-30";
                             $sql_sum = "select count(t1.takerisk_id) as sum from takerisk t1
-                                                    inner join mngrisk m1 on t1.takerisk_id=m1.takerisk_id
-                                                    Where   recycle='N' and subcategory!='' and t1.move_status='N'
+                                                    Where recycle='N' and subcategory!='' and t1.move_status='N'
                                                     and t1.take_date between '$date_start' and '$date_end'";
                             $conn_DB->imp_sql($sql_sum);
                             $sum_rmT=$conn_DB->select_a();
                             $sql_D = "select count(t1.takerisk_id) as sumD from takerisk t1
-                                                    inner join mngrisk m1 on t1.takerisk_id=m1.takerisk_id
-                                                    where m1.admin_check='' and t1.recycle='N' and m1.mng_status='N' and t1.subcategory!='' and t1.move_status='N'
+                                                    left outer join mngrisk m1 on t1.takerisk_id=m1.takerisk_id
+                                                    where t1.recycle='N' and (m1.mng_status='N' or ISNULL(m1.mng_status)) and t1.subcategory!='' and t1.move_status='N'
                                                     and t1.take_date between '$date_start' and '$date_end'";
                             $conn_DB->imp_sql($sql_D);
                             $sum_rmD = $conn_DB->select_a();
                             $sql_D2 = "select count(t1.takerisk_id) as sumD2 from takerisk t1
-                                                    inner join mngrisk m1 on m1.takerisk_id=t1.takerisk_id
+                                                    left outer join mngrisk m1 on m1.takerisk_id=t1.takerisk_id
                                                     where m1.admin_check='' and t1.recycle='N' and m1.mng_status='Y' and t1.subcategory!='' and t1.move_status='N'
                                                     and t1.take_date between '$date_start' and '$date_end'";
                             $conn_DB->imp_sql($sql_D2);
@@ -57,8 +56,8 @@ if (empty($_GET['data'])) {
                             $conn_DB->imp_sql($sql_results);
                             $results = $conn_DB->select();
                             foreach ($results as $key => $value) {
-                                $sql = "select count(t1.takerisk_id) as sum from mngrisk m1
-                                        inner join takerisk t1 on t1.takerisk_id=m1.takerisk_id
+                                $sql = "select count(t1.takerisk_id) as sum from takerisk t1
+                                        inner join mngrisk m1 on t1.takerisk_id=m1.takerisk_id and m1.chk_show=1
                                         where adminchk_id=".$value['rs_id']." and t1.recycle='N' 
                                         and t1.take_date between '$date_start' and '$date_end' and mng_status='Y'";
                             $conn_DB->imp_sql($sql);
