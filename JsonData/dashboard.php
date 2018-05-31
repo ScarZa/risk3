@@ -46,8 +46,8 @@ if (empty($_GET['data'])) {
                             $conn_DB->imp_sql($sql_D);
                             $sum_rmD = $conn_DB->select_a();
                             $sql_D2 = "select count(t1.takerisk_id) as sumD2 from takerisk t1
-                                                    left outer join mngrisk m1 on m1.takerisk_id=t1.takerisk_id
-                                                    where m1.admin_check='' and t1.recycle='N' and m1.mng_status='Y' and t1.subcategory!='' and t1.move_status='N'
+                                                    inner join mngrisk m1 on m1.takerisk_id=t1.takerisk_id and m1.chk_show=1
+                                                    where m1.adminchk_id='' and t1.recycle='N' and m1.mng_status='Y' and t1.subcategory!='' and t1.move_status='N'
                                                     and t1.take_date between '$date_start' and '$date_end'";
                             $conn_DB->imp_sql($sql_D2);
                             $sum_rmD2 = $conn_DB->select_a();
